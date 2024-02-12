@@ -159,5 +159,6 @@ dmypy.json
 poetry.lock
 
 .DS_Store
+.vscode
 /docker-compose.yml
 /nats
