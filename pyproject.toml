@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "aiogram-bot-template"
+version = "0.1.0"
+description = ""
+authors = ["kmsint <kmsrus@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+aiogram = "^3.3.0"
+environs = "^10.3.0"
+fluentogram = "^1.1.6"
+asyncpg = "^0.29.0"
+redis = "^5.0.1"
+aiogram-dialog = "^2.1.0"
+nats-py = "^2.7.0"
+ormsgpack = "^1.4.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
