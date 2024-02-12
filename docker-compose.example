@@ -1,0 +1,30 @@
+version: "3.9"
+services:
+  redis:
+    image: redis:latest
+    command:
+      - redis-server
+    env_file:
+      - .env
+    restart: on-failure
+    ports:
+      - "6379:6379"
+  postgres:
+    image: postgres
+    env_file:
+      - .env
+    restart: on-failure
+    ports:
+      - "5432:5432"
+    # volumes:
+    #   - ~/postgres-data:/var/lib/postgresql/data
+  nats:
+    image: nats
+    entrypoint: /nats-server
+    command: "-c /config/server.conf"
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+    volumes:
+      - ./nats/data:/data
+      - ./nats/config/server.conf:/config/server.conf
