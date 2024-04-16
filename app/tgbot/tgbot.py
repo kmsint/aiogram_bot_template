@@ -11,6 +11,7 @@ from app.infrastructure.cache.utils.connect_to_redis import get_redis_pool
 from app.infrastructure.database.utils.connect_to_pg import get_pg_pool
 from app.infrastructure.database.utils.create_tables import create_tables
 from app.infrastructure.storage.storage.nats_storage import NatsStorage
+from aiogram.client.default import DefaultBotProperties
 from app.infrastructure.storage.utils.connect_to_nats import get_nats_storage
 from app.tgbot.config.config import Config, load_config
 from app.tgbot.dialogs.start.dialogs import start_dialog
@@ -31,7 +32,10 @@ async def main():
         servers=config.nats.servers, buckets=config.nats.buckets
     )
 
-    bot = Bot(token=config.tg_bot.token, parse_mode=ParseMode.HTML)
+    bot = Bot(
+        token=config.tg_bot.token,
+        default=DefaultBotProperties(parse_mode=ParseMode.HTML)
+    )
     dp = Dispatcher(storage=storage)
 
     if config.redis.use_cache:
