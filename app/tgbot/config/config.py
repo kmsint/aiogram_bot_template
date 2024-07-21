@@ -12,9 +12,8 @@ class TgBotConfig:
 
 
 @dataclass
-class NatsStorageConfig:
+class NatsConfig:
     servers: list[str]
-    buckets: list[KeyValueConfig]
 
 
 @dataclass
@@ -41,7 +40,7 @@ class RedisConfig:
 @dataclass
 class Config:
     tg_bot: TgBotConfig
-    nats: NatsStorageConfig
+    nats: NatsConfig
     pg: PostgresConfig
     redis: RedisConfig
 
@@ -55,21 +54,7 @@ def load_config() -> Config:
             admin_ids=list(map(int, env.list('ADMIN_IDS'))),
             admins_chat=env.int('ADMINS_CHAT')
         ),
-        nats=NatsStorageConfig(
-            servers=env.list('NATS_SERVERS'),
-            buckets=[
-                KeyValueConfig(
-                    bucket='fsm_states_aiogram',
-                    history=5,
-                    storage='file'
-                ),
-                KeyValueConfig(
-                    bucket='fsm_data_aiogram',
-                    history=5,
-                    storage='file'
-                ),
-            ]
-        ),
+        nats=NatsConfig(servers=env.list('NATS_SERVERS')),
         pg=PostgresConfig(
             db_name=env('POSTGRES_NAME'),
             host=env('POSTGRES_HOST'),

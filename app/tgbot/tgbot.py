@@ -7,12 +7,13 @@ from aiogram.enums import ParseMode
 from aiogram_dialog import setup_dialogs
 from fluentogram import TranslatorHub
 
+from aiogram.fsm.storage.base import DefaultKeyBuilder
 from app.infrastructure.cache.utils.connect_to_redis import get_redis_pool
+from app.infrastructure.storage.storage.nats_storage import NatsStorage
 from app.infrastructure.database.utils.connect_to_pg import get_pg_pool
 from app.infrastructure.database.utils.create_tables import create_tables
-from app.infrastructure.storage.storage.nats_storage import NatsStorage
 from aiogram.client.default import DefaultBotProperties
-from app.infrastructure.storage.utils.connect_to_nats import get_nats_storage
+from app.infrastructure.storage.utils.nats_connect import connect_to_nats
 from app.tgbot.config.config import Config, load_config
 from app.tgbot.dialogs.start.dialogs import start_dialog
 from app.tgbot.handlers.commands import commands_router
@@ -28,9 +29,13 @@ async def main():
     logger.info("Starting bot")
 
     config: Config = load_config()
-    storage: NatsStorage = await get_nats_storage(
-        servers=config.nats.servers, buckets=config.nats.buckets
-    )
+    nc, js = await connect_to_nats(servers=config.nats.servers)
+
+    storage: NatsStorage = await NatsStorage(
+        nc=nc, 
+        js=js, 
+        key_builder=DefaultKeyBuilder(with_destiny=True)
+    ).create_storage()
 
     bot = Bot(
         token=config.tg_bot.token,
@@ -75,4 +80,12 @@ async def main():
 
     setup_dialogs(dp)
 
-    await dp.start_polling(bot, _translator_hub=translator_hub, _db_pool=db_pool)
+    # Запускаем polling
+    try:
+        await dp.start_polling(bot, _translator_hub=translator_hub, _db_pool=db_pool)
+    except Exception as e:
+        logger.exception(e)
+    finally:
+        # Закрываем соединение с NATS
+        await nc.close()
+        logger.info('Connection to NATS closed')
