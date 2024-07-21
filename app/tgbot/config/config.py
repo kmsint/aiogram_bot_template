@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 
 from environs import Env
-from nats.js.api import KeyValueConfig
 
 
 @dataclass
@@ -14,6 +13,13 @@ class TgBotConfig:
 @dataclass
 class NatsConfig:
     servers: list[str]
+
+
+@dataclass
+class NatsDelayedConsumerConfig:
+    subject: str
+    stream: str
+    durable_name: str
 
 
 @dataclass
@@ -41,6 +47,7 @@ class RedisConfig:
 class Config:
     tg_bot: TgBotConfig
     nats: NatsConfig
+    delayed_consumer: NatsDelayedConsumerConfig
     pg: PostgresConfig
     redis: RedisConfig
 
@@ -55,6 +62,11 @@ def load_config() -> Config:
             admins_chat=env.int('ADMINS_CHAT')
         ),
         nats=NatsConfig(servers=env.list('NATS_SERVERS')),
+        delayed_consumer=NatsDelayedConsumerConfig(
+            subject=env('NATS_DELAYED_CONSUMER_SUBJECT'),
+            stream=env('NATS_DELAYED_CONSUMER_STREAM'),
+            durable_name=env('NATS_DELAYED_CONSUMER_DURABLE_NAME')
+        ),
         pg=PostgresConfig(
             db_name=env('POSTGRES_NAME'),
             host=env('POSTGRES_HOST'),
