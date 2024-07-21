@@ -3,16 +3,16 @@ import logging
 import asyncpg
 import redis
 from aiogram import Bot, Dispatcher
+from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
+from aiogram.fsm.storage.base import DefaultKeyBuilder
 from aiogram_dialog import setup_dialogs
 from fluentogram import TranslatorHub
 
-from aiogram.fsm.storage.base import DefaultKeyBuilder
 from app.infrastructure.cache.utils.connect_to_redis import get_redis_pool
-from app.infrastructure.storage.storage.nats_storage import NatsStorage
 from app.infrastructure.database.utils.connect_to_pg import get_pg_pool
 from app.infrastructure.database.utils.create_tables import create_tables
-from aiogram.client.default import DefaultBotProperties
+from app.infrastructure.storage.storage.nats_storage import NatsStorage
 from app.infrastructure.storage.utils.nats_connect import connect_to_nats
 from app.tgbot.config.config import Config, load_config
 from app.tgbot.dialogs.start.dialogs import start_dialog
