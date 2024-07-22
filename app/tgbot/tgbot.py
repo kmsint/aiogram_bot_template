@@ -14,7 +14,6 @@ from fluentogram import TranslatorHub
 
 from app.infrastructure.cache.utils.connect_to_redis import get_redis_pool
 from app.infrastructure.database.utils.connect_to_pg import get_pg_pool
-from app.infrastructure.database.utils.create_tables import create_tables
 from app.infrastructure.storage.storage.nats_storage import NatsStorage
 from app.infrastructure.storage.utils.nats_connect import connect_to_nats
 from app.services.delay_service.utils.start_consumer import start_delayed_consumer
@@ -66,13 +65,6 @@ async def main():
         password=config.pg.password,
     )
 
-    async with db_pool.acquire() as connect:
-        try:
-            await create_tables(connect)
-        except Exception as e:
-            logger.exception(e)
-            await db_pool.close()
-
     translator_hub: TranslatorHub = create_translator_hub()
 
     logger.info("Registering error handlers")
@@ -119,3 +111,6 @@ async def main():
     finally:
         await nc.close()
         logger.info('Connection to NATS closed')
+        await db_pool.close()
+        logger.info('Connection to Postgres closed')
+        

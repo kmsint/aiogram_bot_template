@@ -15,24 +15,6 @@ class _UsersDB:
     def __init__(self, connection: Connection):
         self.connection = connection
 
-    async def create_table(self) -> None:
-        await self.connection.execute('''
-            CREATE TABLE IF NOT EXISTS users(
-                id SERIAL PRIMARY KEY,
-                user_id BIGINT NOT NULL UNIQUE,
-                created TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-                tz_region VARCHAR(50),
-                tz_offset VARCHAR(10),
-                longitude REAL,
-                latitude REAL,
-                language VARCHAR(10),
-                role VARCHAR(30),
-                is_alive BOOLEAN NOT NULL,
-                is_blocked BOOLEAN NOT NULL
-            );
-        ''')
-        logger.info("Created table '%s'", self.__tablename__)
-
     async def add(
             self,
             *,

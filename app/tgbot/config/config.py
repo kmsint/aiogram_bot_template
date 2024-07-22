@@ -67,13 +67,7 @@ def load_config() -> Config:
             stream=env('NATS_DELAYED_CONSUMER_STREAM'),
             durable_name=env('NATS_DELAYED_CONSUMER_DURABLE_NAME')
         ),
-        pg=PostgresConfig(
-            db_name=env('POSTGRES_NAME'),
-            host=env('POSTGRES_HOST'),
-            port=env('POSTGRES_PORT'),
-            username=env('POSTGRES_USER'),
-            password=env('POSTGRES_PASSWORD')
-        ),
+        pg=load_pg_config(env=env),
         redis=RedisConfig(
             use_cache=env.bool('USE_CACHE', False),
             database=env.int('REDIS_DATABASE'),
@@ -84,4 +78,18 @@ def load_config() -> Config:
             state_ttl=env('REDIS_TTL_STATE'),
             data_ttl=env('REDIS_TTL_DATA')
         )
+    )
+
+
+def load_pg_config(env: Env | None = None) -> PostgresConfig:
+    if env is None:
+        env = Env()
+        env.read_env()
+
+    return PostgresConfig(
+        db_name=env('POSTGRES_NAME'),
+        host=env('POSTGRES_HOST'),
+        port=env('POSTGRES_PORT'),
+        username=env('POSTGRES_USER'),
+        password=env('POSTGRES_PASSWORD')
     )
