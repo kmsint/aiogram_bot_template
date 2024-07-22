@@ -25,6 +25,9 @@ class DelayedMessageDeletion:
             action_type=Action(data.get("Tg-Delayed-Type")),
             chat_id=int(data.get("Tg-Delayed-Chat-ID")),
             message_id=int(data.get("Tg-Delayed-Msg-ID")),
-            sent_time=datetime.fromtimestamp(float(data.get("Tg-Delayed-Msg-Timestamp")), tz=timezone.utc),
+            sent_time=datetime.fromtimestamp(
+                float(data.get("Tg-Delayed-Msg-Timestamp")), 
+                tz=timezone.utc
+            ),
             delay=int(data.get("Tg-Delayed-Msg-Delay")),
         )

@@ -6,8 +6,10 @@ import redis
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
+from aiogram.filters import ExceptionTypeFilter
 from aiogram.fsm.storage.base import DefaultKeyBuilder
 from aiogram_dialog import setup_dialogs
+from aiogram_dialog.api.exceptions import UnknownIntent, UnknownState
 from fluentogram import TranslatorHub
 
 from app.infrastructure.cache.utils.connect_to_redis import get_redis_pool
@@ -19,6 +21,7 @@ from app.services.delay_service.utils.start_consumer import start_delayed_consum
 from app.tgbot.config.config import Config, load_config
 from app.tgbot.dialogs.start.dialogs import start_dialog
 from app.tgbot.handlers.commands import commands_router
+from app.tgbot.handlers.errors import on_unknown_intent, on_unknown_state
 from app.tgbot.middlewares.database import DataBaseMiddleware
 from app.tgbot.middlewares.i18n import TranslatorRunnerMiddleware
 from app.tgbot.middlewares.setlang import SetLangMiddleware
@@ -72,6 +75,16 @@ async def main():
 
     translator_hub: TranslatorHub = create_translator_hub()
 
+    logger.info("Registering error handlers")
+    dp.errors.register(
+        on_unknown_intent,
+        ExceptionTypeFilter(UnknownIntent),
+    )
+    dp.errors.register(
+        on_unknown_state,
+        ExceptionTypeFilter(UnknownState),
+    )
+
     logger.info("Including routers")
     dp.include_routers(commands_router, start_dialog)
 
@@ -82,7 +95,7 @@ async def main():
 
     setup_dialogs(dp)
 
-    # Запускаем polling и консьюмер отложенного удаления сообщений
+    # Launch polling and delayed message consumer
     try:
         await asyncio.gather(
             dp.start_polling(
