@@ -1,4 +1,22 @@
-Aiogram bot template with aiogram_dialog as the UI, NATS as the queue and FSM storage, PostgreSQL as the database, fluentogram as a useful internationalization tool, and Redis as the cache.
+
+# Aiogram 3 Bot Template
+
+This is a template for telegram bots written in python using the aiogram framework
+
+## About the template
+
+### Used technology
+* Python 3.12;
+* aiogram 3.x (Asynchronous Telegram Bot framework);
+* aiogram_dialog (GUI framework for telegram bot);
+* fluentogram (Internationalization tool in the fluent paradigm);
+* Docker and Docker Compose (containerization);
+* PostgreSQL (database);
+* NATS (queue and FSM storage);
+* Redis (cache);
+* Alembic (database migrations with row SQL);
+
+### Structure
 
 ```
 📁 aiogram_bot_template/
@@ -50,6 +68,8 @@ Aiogram bot template with aiogram_dialog as the UI, NATS as the queue and FSM st
 │       ├── 📁 enums/
 │       │   ├── actions.py
 │       │   └── roles.py
+│       ├── 📁 filters/
+│       │   └── filters.py
 │       ├── 📁 handlers/
 │       │   ├── commands.py
 │       │   └── errors.py
@@ -90,3 +110,5 @@ Aiogram bot template with aiogram_dialog as the UI, NATS as the queue and FSM st
 ├── pyproject.toml
 └── README.md
 ```
+
+### Installation
