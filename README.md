@@ -146,16 +146,24 @@ poetry install
 6. Create a `.env` file in the root of the project and copy the code from the `.env.example` file into it. 
 Replace the required secrets (BOT_TOKEN, ADMINS_CHAT, etc).
 
-7. Apply database migrations using the command:
+7. Write SQL code in the `upgrade` and `downgrade` functions to create a database schema. See example in file `alembic/versions/1541bb8a3f26_.py`.
+
+8. If required, create additional empty migrations with the command:
+```bash
+alembic revision
+```
+and fill them with SQL code.
+
+9. Apply database migrations using the command:
 ```bash
 alembic upgrade head
 ```
 
-8. Run `create_stream.py` to create NATS stream for delayed messages service:
+10. Run `create_stream.py` to create NATS stream for delayed messages service:
 ```bash
 python3 nats/migrations/create_stream.py
 ```
 
-9. Run `__main__.py` to check the functionality of the template.
+11. Run `__main__.py` to check the functionality of the template.
 
-10. You can fill the template with the functionality you need.
+12. You can fill the template with the functionality you need.
