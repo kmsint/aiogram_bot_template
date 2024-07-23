@@ -1,5 +1,6 @@
 Aiogram bot template with aiogram_dialog as the UI, NATS as the queue and FSM storage, PostgreSQL as the database, fluentogram as a useful internationalization tool, and Redis as the cache.
 
+<code>
 📁 aiogram_bot_template/
 ├── 📁 alembic/
 │   ├── 📁 versinos/
@@ -88,3 +89,4 @@ Aiogram bot template with aiogram_dialog as the UI, NATS as the queue and FSM st
 ├── poetry.lock
 ├── pyproject.toml
 └── README.md
+</code>
