@@ -14,7 +14,7 @@ This is a template for telegram bots written in python using the aiogram framewo
 * PostgreSQL (database);
 * NATS (queue and FSM storage);
 * Redis (cache);
-* Alembic (database migrations with row SQL).
+* Alembic (database migrations with raw SQL).
 
 ### Structure
 
@@ -141,7 +141,7 @@ poetry install
 6. Create a `.env` file in the root of the project and copy the code from the `.env.example` file into it. 
 Replace the required secrets (BOT_TOKEN, ADMINS_CHAT, etc).
 
-7. Perform database migrations by command:
+7. Apply database migrations using the command:
 ```bash
 alembic upgrade head
 ```
