@@ -3,6 +3,11 @@
 
 This is a template for telegram bots written in python using the aiogram framework
 
+
+You can learn how to develop telegram bots using the aiogram framework in the following courses (in Russian):
+1. <a href="https://stepik.org/course/120924/">Телеграм-боты на Python и AIOgram</a>
+2. <a href="https://stepik.org/a/153850?utm_source=kmsint_github">Телеграм-боты на Python: продвинутый уровень</a>
+
 ## About the template
 
 ### Used technology
