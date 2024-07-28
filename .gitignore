@@ -162,3 +162,4 @@ poetry.lock
 # .vscode
 /docker-compose.yml
 /nui/
+/nats/data/
