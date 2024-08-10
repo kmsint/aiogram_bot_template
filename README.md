@@ -130,11 +130,13 @@ git clone git@github.com:kmsint/aiogram_bot_template.git
 
 2. Create a `docker-compose.yml` file in the root of the project and copy the code from the `docker-compose.example` file into it.
 
-3. Run `docker-compose.yml` with `docker compose up` command. You need docker and docker-compose installed on your local machine.
+3. Create a `.env` file in the root of the project and copy the code from the `.env.example` file into it. Replace the required secrets (BOT_TOKEN, ADMINS_CHAT, etc).
 
-4. Create a virtual environment in the project root and activate it.
+4. Run `docker-compose.yml` with `docker compose up` command. You need docker and docker-compose installed on your local machine.
 
-5. Install the required libraries in the virtual environment. With `pip`:
+5. Create a virtual environment in the project root and activate it.
+
+6. Install the required libraries in the virtual environment. With `pip`:
 ```bash
 pip install .
 ```
@@ -142,10 +144,6 @@ or if you use `poetry`:
 ```bash
 poetry install
 ```
-
-6. Create a `.env` file in the root of the project and copy the code from the `.env.example` file into it. 
-Replace the required secrets (BOT_TOKEN, ADMINS_CHAT, etc).
-
 7. Write SQL code in the `upgrade` and `downgrade` functions to create a database schema. See example in file `alembic/versions/1541bb8a3f26_.py`.
 
 8. If required, create additional empty migrations with the command:
@@ -167,3 +165,20 @@ python3 nats/migrations/create_stream.py
 11. Run `__main__.py` to check the functionality of the template.
 
 12. You can fill the template with the functionality you need.
+
+## Developer tools
+
+For convenient interaction with nats-server you need to install nats cli tool. For macOS you can do this through the homebrew package manager. Run the commands:
+```bash
+brew tap nats-io/nats-tools
+brew install nats-io/nats-tools/nats
+```
+For linux:
+```bash
+curl -sf https://binaries.nats.dev/nats-io/natscli/nats@latest | sh
+sudo mv nats /usr/local/bin/
+```
+After this you can check the NATS version with the command:
+```bash
+nats --version
+```
