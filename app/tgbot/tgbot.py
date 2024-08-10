@@ -25,6 +25,7 @@ from app.tgbot.middlewares.database import DataBaseMiddleware
 from app.tgbot.middlewares.i18n import TranslatorRunnerMiddleware
 from app.tgbot.middlewares.setlang import SetLangMiddleware
 from app.tgbot.utils.i18n import create_translator_hub
+from app.services.scheduler.task_scheduler import setup_taskiq, shutdown_taskiq
 
 logger = logging.getLogger(__name__)
 
@@ -46,6 +47,9 @@ async def main():
         default=DefaultBotProperties(parse_mode=ParseMode.HTML)
     )
     dp = Dispatcher(storage=storage)
+
+    logger.info(bot.__module__)
+    logger.info(dp.__module__)
 
     if config.redis.use_cache:
         cache_pool: redis.asyncio.Redis = await get_redis_pool(
@@ -76,6 +80,9 @@ async def main():
         on_unknown_state,
         ExceptionTypeFilter(UnknownState),
     )
+
+    dp.startup.register(setup_taskiq)
+    dp.shutdown.register(shutdown_taskiq)
 
     logger.info("Including routers")
     dp.include_routers(commands_router, start_dialog)

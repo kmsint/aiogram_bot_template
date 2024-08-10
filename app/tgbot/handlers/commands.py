@@ -7,6 +7,7 @@ from fluentogram import TranslatorRunner
 from app.services.delay_service.publisher import delay_message_deletion
 from app.tgbot.states.start import StartSG
 from nats.js.client import JetStreamContext
+from app.services.scheduler.task_scheduler import my_task
 
 commands_router = Router()
 
@@ -39,6 +40,12 @@ async def send_and_del_message(
         subject=delay_del_subject, 
         delay=delay
     )
+
+
+## Simple command to handle
+@commands_router.message(Command("task"))
+async def message(message: Message):
+    await my_task.kiq(message.chat.id)
 
 
 # @commands_router.message(Command('help'))
