@@ -29,4 +29,4 @@ async def shutdown(state: TaskiqState) -> None:
 
 @broker.task(task_name="notify", schedule=[{"cron": "* * * * *"}])
 async def notify(context: Context = TaskiqDepends()) -> None:
-    print("12 часов! пора какать")
+    print("Оповещение!")

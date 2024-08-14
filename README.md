@@ -182,3 +182,9 @@ After this you can check the NATS version with the command:
 ```bash
 nats --version
 ```
+
+## TODO
+
+1. Add dynaconf to manage configs
+2. Add and configure taskiq to work with background tasks and scheduler
+3. Add mailing service
