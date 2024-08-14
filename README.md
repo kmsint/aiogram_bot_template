@@ -185,6 +185,7 @@ nats --version
 
 ## TODO
 
-1. Add dynaconf to manage configs
-2. Add and configure taskiq to work with background tasks and scheduler
+1. Add `dynaconf` to manage configs
+2. Add and configure `taskiq` to work with background tasks and scheduler
 3. Add mailing service
+4. Replace `asyncpg` with `psycopg3`
