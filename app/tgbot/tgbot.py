@@ -91,6 +91,9 @@ async def main():
     dp.update.middleware(DataBaseMiddleware())
     dp.update.middleware(SetLangMiddleware())
     dp.update.middleware(TranslatorRunnerMiddleware())
+    dp.errors.middleware(DataBaseMiddleware())
+    dp.errors.middleware(TranslatorRunnerMiddleware())
+    dp.errors.middleware(SetLangMiddleware())
 
     setup_dialogs(dp)
 
