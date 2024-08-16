@@ -59,8 +59,6 @@ You can learn how to develop telegram bots using the `aiogram` framework in the 
 │   │       ├── consumer.py
 │   │       └── publisher.py
 │   └── 📁 tgbot/
-│       ├── 📁 config/
-│       │   └── config.py
 │       ├── 📁 dialogs/
 │       │   ├── 📁 set_language/
 │       │   │   ├── dialogs.py
@@ -90,6 +88,9 @@ You can learn how to develop telegram bots using the `aiogram` framework in the 
 │       │   └── i18n.py
 │       ├── __init__.py
 │       └── tgbot.py
+├── 📁 config/
+│   ├── config.py
+│   └── settings.toml
 ├── 📁 locales/
 │   ├── 📁 en/
 │   │   ├── 📁 LC_MESSAGES/
