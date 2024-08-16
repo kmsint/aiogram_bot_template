@@ -101,7 +101,7 @@ You can learn how to develop telegram bots using the `aiogram` framework in the 
 │       │   └── txt.ftl
 │       └── 📁 static/
 ├── 📁 nats/
-│   └── 📁 config/
+│   ├── 📁 config/
 │   │   └── server.conf
 │   └── 📁 migrations/
 │       └── create_stream.py
@@ -172,9 +172,9 @@ and then the scheduler:
 taskiq scheduler app.infrastructure.scheduler.taskiq_broker:scheduler
 ```
 
-11. Run `__main__.py` to check the functionality of the template.
+12. Run `__main__.py` to check the functionality of the template.
 
-12. You can fill the template with the functionality you need.
+13. You can fill the template with the functionality you need.
 
 ## Developer tools
 

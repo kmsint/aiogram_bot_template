@@ -1,20 +1,26 @@
 import asyncio
+import os
+import sys
+
 import nats
 from nats.js.api import StreamConfig
 
-async def main():
-    # Подключение к NATS-серверу
-    nc = await nats.connect("nats://localhost:4222")
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
-    # Создание JetStream
+from config.config import settings
+
+
+async def main():
+    nc = await nats.connect(servers=settings.nats.servers)
+
     js = nc.jetstream()
 
-    stream_name = "delayed_messages_aiogram"
+    stream_name = settings.nats.delayed_consumer_stream
 
     # Конфигурация стрима
     config = StreamConfig(
         name=stream_name,
-        subjects=["aiogram.delayed.messages"],
+        subjects=[settings.nats.delayed_consumer_subject],
         retention="limits",  # Политика хранения сообщений (limits, interest, workqueue)
         storage="file"  # Тип хранения сообщений (file, memory)
     )
