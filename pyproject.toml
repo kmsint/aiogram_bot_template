@@ -8,7 +8,6 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.12"
 aiogram = "^3.10.0"
-environs = "^11.0.0"
 nats-py = "^2.8.0"
 ormsgpack = "^1.5.0"
 aiogram-dialog = "^2.1.0"
@@ -18,6 +17,7 @@ asyncpg = "^0.29.0"
 alembic = "^1.13.2"
 taskiq-aiogram = "^0.3.1"
 taskiq-nats = "^0.4.0"
+dynaconf = "^3.2.6"
 
 
 [tool.poetry.group.dev.dependencies]

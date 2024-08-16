@@ -147,7 +147,6 @@ dmypy.json
 *.xlsx
 
 /temp/
-/config/
 /files/
 /local-storage/
 

@@ -1,10 +1,10 @@
 
 # Aiogram 3 Bot Template
 
-This is a template for telegram bots written in python using the aiogram framework
+This is a template for telegram bots written in python using the `aiogram` framework
 
 
-You can learn how to develop telegram bots using the aiogram framework in the following courses (in Russian):
+You can learn how to develop telegram bots using the `aiogram` framework in the following courses (in Russian):
 1. <a href="https://stepik.org/course/120924/">Телеграм-боты на Python и AIOgram</a>
 2. <a href="https://stepik.org/a/153850?utm_source=kmsint_github">Телеграм-боты на Python: продвинутый уровень</a>
 
@@ -162,6 +162,15 @@ alembic upgrade head
 python3 nats/migrations/create_stream.py
 ```
 
+11. If you want to use the Taskiq broker for background tasks as well as the Taskiq scheduler, add your tasks to the `tasks.py` module and start the worker first:
+```bash
+taskiq worker app.infrastructure.scheduler.taskiq_broker:broker -fsd
+```
+and then the scheduler:
+```bash
+taskiq scheduler app.infrastructure.scheduler.taskiq_broker:scheduler
+```
+
 11. Run `__main__.py` to check the functionality of the template.
 
 12. You can fill the template with the functionality you need.
@@ -185,7 +194,7 @@ nats --version
 
 ## TODO
 
-1. Add `dynaconf` to manage configs
-2. Add and configure `taskiq` to work with background tasks and scheduler
-3. Add mailing service
-4. Replace `asyncpg` with `psycopg3`
+1. Add and configure `taskiq` to work with background tasks and scheduler
+2. Add mailing service
+3. Replace `asyncpg` with `psycopg3`
+4. Set up a CICD pipeline using Docker and GitHub Actions
