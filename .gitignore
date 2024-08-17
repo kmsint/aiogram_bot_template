@@ -162,3 +162,5 @@ poetry.lock
 /docker-compose.yml
 /nui/
 /nats/data/
+/postgres-data/
+/pgadmin-data/

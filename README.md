@@ -14,6 +14,8 @@ You can learn how to develop telegram bots using the `aiogram` framework in the 
 * Python 3.12;
 * aiogram 3.x (Asynchronous Telegram Bot framework);
 * aiogram_dialog (GUI framework for telegram bot);
+* dynaconf (Configuration Management for Python);
+* taskiq (Async Distributed Task Manager);
 * fluentogram (Internationalization tool in the Fluent paradigm);
 * Docker and Docker Compose (containerization);
 * PostgreSQL (database);
@@ -197,5 +199,4 @@ nats --version
 
 1. Add and configure `taskiq` to work with background tasks and scheduler
 2. Add mailing service
-3. Replace `asyncpg` with `psycopg3`
-4. Set up a CICD pipeline using Docker and GitHub Actions
+3. Set up a CICD pipeline using Docker and GitHub Actions

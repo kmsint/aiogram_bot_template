@@ -1,7 +1,7 @@
 import asyncio
 import logging
 
-import asyncpg
+import psycopg_pool
 import redis
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
@@ -56,7 +56,7 @@ async def main():
         )
         dp.workflow_data.update(_cache_pool=cache_pool)
 
-    db_pool: asyncpg.Pool = await get_pg_pool(
+    db_pool: psycopg_pool.AsyncConnectionPool = await get_pg_pool(
         db_name=settings.postgres.name,
         host=settings.postgres.host,
         port=settings.postgres.port,

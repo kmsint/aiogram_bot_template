@@ -8,6 +8,9 @@ from app.services.delay_service.publisher import delay_message_deletion
 from app.tgbot.states.start import StartSG
 from nats.js.client import JetStreamContext
 from app.services.scheduler.task_scheduler import my_task
+from app.infrastructure.database.database.db import DB
+from app.infrastructure.database.models.users import UsersModel
+from app.tgbot.enums.roles import UserRole
 
 commands_router = Router()
 
@@ -16,8 +19,16 @@ commands_router = Router()
 async def process_start_command(
     message: Message,
     dialog_manager: DialogManager,
-    i18n: TranslatorRunner
+    i18n: TranslatorRunner,
+    db: DB
 ) -> None:
+    user_record: UsersModel | None = await db.users.get_user_record(user_id=message.from_user.id)
+    if user_record is None:
+        await db.users.add(
+            user_id=message.from_user.id, 
+            language=message.from_user.language_code,
+            role=UserRole.USER
+        )
     await dialog_manager.start(state=StartSG.start, mode=StartMode.RESET_STACK)
 
 

@@ -4,7 +4,8 @@ from typing import Awaitable, Callable
 
 from aiogram import BaseMiddleware
 from aiogram.types import Update
-from asyncpg import Pool, exceptions
+from psycopg import Error
+from psycopg_pool import AsyncConnectionPool
 
 from app.infrastructure.database.database.db import DB
 
@@ -18,14 +19,14 @@ class DataBaseMiddleware(BaseMiddleware):
         event: Update,
         data: dict[str, any]
     ) -> any:
-        pool: Pool = data.get('_db_pool')
+        db_pool: AsyncConnectionPool = data.get('_db_pool')
 
-        async with pool.acquire() as connection:
+        async with db_pool.connection() as connection:
             async with connection.transaction():
                 try:
                     data['db'] = DB(connection)
                     result = await handler(event, data)
-                except exceptions.PostgresError as e:
+                except Error as e:
                     logger.exception('Transaction rolled back due to error: %s', e)
                     result = await handler(event, data)
 

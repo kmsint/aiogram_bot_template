@@ -1,6 +1,6 @@
 import logging
 
-import asyncpg
+from psycopg_pool import AsyncConnectionPool
 
 logger = logging.getLogger(__name__)
 
@@ -11,18 +11,14 @@ async def get_pg_pool(
     port: int,
     user: str,
     password: str,
-) -> asyncpg.Pool:
-    db_pool = await asyncpg.create_pool(
-        database=db_name,
-        host=host,
-        port=port,
-        user=user,
-        password=password,
+) -> AsyncConnectionPool:
+    dp_pool = AsyncConnectionPool(
+        conninfo=f'postgresql://{user}:{password}@{host}:{port}/{db_name}',
         min_size=1,
         max_size=3,
     )
+    # version = await db_pool.connection(). fetchone("SELECT version() as ver;")
+    # logger.info(f"Connected to {version['ver']}")
+    await dp_pool.open()
 
-    version = await db_pool.fetchrow("SELECT version() as ver;")
-    logger.debug(f"Connected to {version['ver']}")
-
-    return db_pool
+    return dp_pool
