@@ -145,7 +145,7 @@ pip install .
 ```
 or if you use `poetry`:
 ```bash
-poetry install
+poetry install --no-root
 ```
 7. Write SQL code in the `upgrade` and `downgrade` functions to create a database schema. See example in file `alembic/versions/1541bb8a3f26_.py`.
 
