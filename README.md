@@ -20,7 +20,7 @@ You can learn how to develop telegram bots using the `aiogram` framework in the 
 * Docker and Docker Compose (containerization);
 * PostgreSQL (database);
 * NATS (queue and FSM storage);
-* Redis (cache);
+* Redis (cache, taskiq result backend);
 * Alembic (database migrations with raw SQL).
 
 ### Structure
