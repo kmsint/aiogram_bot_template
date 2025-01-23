@@ -197,6 +197,5 @@ nats --version
 
 ## TODO
 
-1. Add and configure `taskiq` to work with background tasks and scheduler
-2. Add mailing service
-3. Set up a CICD pipeline using Docker and GitHub Actions
+1. Add mailing service
+2. Set up a CICD pipeline using Docker and GitHub Actions
