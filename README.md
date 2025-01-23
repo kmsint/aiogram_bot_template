@@ -53,13 +53,16 @@ You can learn how to develop telegram bots using the `aiogram` framework in the 
 │   │       └── 📁 utils/
 │   │           └── nats_connect.py
 │   ├── 📁 services/
-│   │   └── 📁 delay_service/
-│   │       ├── 📁 models/
-│   │       │   └── delayed_messages.py
-│   │       ├── 📁 utils/
-│   │       │   └── start_consumer.py
-│   │       ├── consumer.py
-│   │       └── publisher.py
+│   │   ├── 📁 delay_service/
+│   │   │   ├── 📁 models/
+│   │   │   │   └── delayed_messages.py
+│   │   │   ├── 📁 utils/
+│   │   │   │   └── start_consumer.py
+│   │   │   ├── consumer.py
+│   │   │   └── publisher.py
+│   │   └── 📁 scheduler/
+│   │       ├── taskiq_broker.py
+│   │       └── tasks.py
 │   └── 📁 tgbot/
 │       ├── 📁 dialogs/
 │       │   ├── 📁 set_language/
