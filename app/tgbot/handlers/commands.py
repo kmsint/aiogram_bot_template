@@ -1,16 +1,24 @@
+from datetime import datetime, timedelta, timezone
+
 from aiogram import Router
 from aiogram.filters import Command, CommandStart
 from aiogram.types import Message
 from aiogram_dialog import DialogManager, StartMode
 from fluentogram import TranslatorRunner
+from taskiq_redis import RedisScheduleSource
 
-from app.services.delay_service.publisher import delay_message_deletion
-from app.tgbot.states.start import StartSG
-from nats.js.client import JetStreamContext
-from app.services.scheduler.task_scheduler import my_task
 from app.infrastructure.database.database.db import DB
 from app.infrastructure.database.models.users import UsersModel
+from app.services.delay_service.publisher import delay_message_deletion
+from app.services.scheduler.tasks import (
+    dynamic_periodic_task,
+    scheduled_task,
+    simple_task,
+)
 from app.tgbot.enums.roles import UserRole
+from app.tgbot.keyboards.links_kb import get_links_kb
+from app.tgbot.states.start import StartSG
+from nats.js.client import JetStreamContext
 
 commands_router = Router()
 
@@ -53,16 +61,48 @@ async def send_and_del_message(
     )
 
 
-## Simple command to handle
-@commands_router.message(Command("task"))
-async def message(message: Message):
-    await my_task.kiq(message.chat.id)
+@commands_router.message(Command('simple'))
+async def task_handler(
+    message: Message, 
+    i18n: TranslatorRunner, 
+    redis_source: RedisScheduleSource
+) -> None:
+    await simple_task.kiq()
+    await message.answer(text=i18n.simple.task())
 
 
-# @commands_router.message(Command('help'))
-# async def process_help_command(
-#     message: Message,
-#     dialog_manager: DialogManager,
-#     i18n: TranslatorRunner
-# ) -> None:
-#     await message.answer(text=i18n.help.command())
+@commands_router.message(Command('delay'))
+async def delay_task_handler(
+    message: Message, 
+    i18n: TranslatorRunner, 
+    redis_source: RedisScheduleSource
+) -> None:
+    await scheduled_task.schedule_by_time(
+        source=redis_source, 
+        time=datetime.now(timezone.utc) + timedelta(seconds=5)
+    )
+    await message.answer(text=i18n.task.soon())
+
+
+@commands_router.message(Command('periodic'))
+async def dynamic_periodic_task_handler(
+    i18n: TranslatorRunner, 
+    message: Message, redis_source: RedisScheduleSource
+) -> None:
+    await dynamic_periodic_task.schedule_by_cron(
+        source=redis_source, 
+        cron='*/2 * * * *'
+    )
+    await message.answer(text=i18n.periodic.task())
+
+
+@commands_router.message(Command('help'))
+async def process_help_command(
+    message: Message,
+    dialog_manager: DialogManager,
+    i18n: TranslatorRunner
+) -> None:
+    await message.answer(
+        text=i18n.help.command(),
+        reply_markup=get_links_kb(i18n=i18n)
+    )

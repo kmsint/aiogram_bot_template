@@ -19,6 +19,7 @@ taskiq-nats = "^0.4.0"
 dynaconf = "^3.2.6"
 psycopg = "^3.2.1"
 psycopg-pool = "^3.2.2"
+taskiq-redis = "^1.0.2"
 
 
 [tool.poetry.group.dev.dependencies]
