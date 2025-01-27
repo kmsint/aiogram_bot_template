@@ -77,3 +77,15 @@ class _UsersDB:
             "User updated. db='%s', user_id=%d, is_alive=%s",
             self.__tablename__, user_id, is_alive
         )
+    
+    async def update_user_lang(self, *, user_id: int, user_lang: str) -> None:
+        await self.connection.execute('''
+            UPDATE users
+            SET language = %s
+            WHERE user_id = %s
+        ''', (user_lang, user_id)
+        )
+        logger.info(
+            "User updated. db='%s', user_id=%d, language=%s",
+            self.__tablename__, user_id, user_lang
+        )

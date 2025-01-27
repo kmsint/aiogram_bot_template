@@ -16,7 +16,9 @@ from app.services.scheduler.tasks import (
     simple_task,
 )
 from app.tgbot.enums.roles import UserRole
+from app.tgbot.filters.dialog_filters import DialogStateFilter, DialogStateGroupFilter
 from app.tgbot.keyboards.links_kb import get_links_kb
+from app.tgbot.states.settings import SettingsSG
 from app.tgbot.states.start import StartSG
 from nats.js.client import JetStreamContext
 
@@ -94,6 +96,28 @@ async def dynamic_periodic_task_handler(
         cron='*/2 * * * *'
     )
     await message.answer(text=i18n.periodic.task())
+
+
+@commands_router.message(~DialogStateGroupFilter(state_group=SettingsSG), Command('lang'))
+async def process_lang_command_sg(
+    message: Message,
+    dialog_manager: DialogManager,
+    i18n: TranslatorRunner
+) -> None:
+    await dialog_manager.start(state=SettingsSG.lang)
+
+
+@commands_router.message(
+        DialogStateGroupFilter(state_group=SettingsSG), 
+        ~DialogStateFilter(state=SettingsSG.lang), 
+        Command('lang')
+    )
+async def process_lang_command(
+    message: Message,
+    dialog_manager: DialogManager,
+    i18n: TranslatorRunner
+) -> None:
+    await dialog_manager.switch_to(state=SettingsSG.lang)
 
 
 @commands_router.message(Command('help'))

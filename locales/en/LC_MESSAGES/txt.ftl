@@ -25,6 +25,7 @@ help-command = This is a bot template created by <b>Mikhail Kryzhanovsky</b>. He
 
                <b>Common commands:</b>
 
+               /lang - Select the interface language 
                /start - Restart the bot
                /help - View this help
 
@@ -36,7 +37,7 @@ periodic-task = This is a dynamically scheduled periodic task
 
 about-author = About author
 
-about-author-link = https://t.me/toBeAnMLspecialist/930
+about-author-link = https://t.me/toBeAnMLspecialist/935
 
 free-course = 🤖 Free course on bots
 
@@ -49,3 +50,21 @@ advanced-course-link = https://stepik.org/a/153850
 mlpodcast = Machine Learning Podcast
 
 mlpodcast-link = https://mlpodcast.mave.digital/
+
+back-button = ◀️ Back
+
+save-button = ✅ Save
+
+set-lang-menu = <b>Please select the language of the bot interface</b>
+
+                The 🇬🇧 <b>English</b> language is selected
+
+ru-lang = 🇷🇺 Russian
+
+en-lang = 🇬🇧 English
+
+fr-lang = 🇫🇷 Franch
+
+de-lang = 🇩🇪 German
+
+lang-saved = ✅ The language settings have been saved successfully!

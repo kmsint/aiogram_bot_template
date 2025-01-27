@@ -7,6 +7,10 @@
     [development.logs]
         LEVEL_NAME = "DEBUG"
         FORMAT = '[%(asctime)s] #%(levelname)-8s %(filename)s:%(lineno)d - %(name)s - %(message)s'
+    
+    [development.i18n]
+        default_locale = "ru"
+        locales = ["ru", "en"]
 
     [development.bot]
         PARSE_MODE = 'HTML'
