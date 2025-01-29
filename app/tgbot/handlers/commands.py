@@ -2,9 +2,11 @@ from datetime import datetime, timedelta, timezone
 
 from aiogram import Router
 from aiogram.filters import Command, CommandStart
+from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 from aiogram_dialog import DialogManager, StartMode
 from fluentogram import TranslatorRunner
+from taskiq import ScheduledTask
 from taskiq_redis import RedisScheduleSource
 
 from app.infrastructure.database.database.db import DB
@@ -89,14 +91,40 @@ async def delay_task_handler(
 @commands_router.message(Command('periodic'))
 async def dynamic_periodic_task_handler(
     message: Message,
-    i18n: TranslatorRunner, 
+    i18n: TranslatorRunner,
+    state: FSMContext,
     redis_source: RedisScheduleSource
 ) -> None:
-    await dynamic_periodic_task.schedule_by_cron(
+    periodic_task: ScheduledTask = await dynamic_periodic_task.schedule_by_cron(
         source=redis_source, 
         cron='*/2 * * * *'
     )
+
+    data: dict = await state.get_data()
+    if data.get('periodic_tasks') is None:
+        data['periodic_tasks'] = []
+    
+    data['periodic_tasks'].append(periodic_task.schedule_id)
+
+    await state.set_data(data)
+
     await message.answer(text=i18n.periodic.task())
+
+
+@commands_router.message(Command('del_periodic'))
+async def delete_all_periodic_tasks_handler(
+    message: Message,
+    i18n: TranslatorRunner,
+    state: FSMContext,
+    redis_source: RedisScheduleSource
+) -> None:
+    data = await state.get_data()
+    if data.get('periodic_tasks') is None:
+        await message.answer(text=i18n.no.periodic.tasks())
+    else:
+        for task_id in data.get('periodic_tasks'):
+            await redis_source.delete_schedule(task_id)
+        await message.answer(text=i18n.periodic.tasks.deleted())
 
 
 @commands_router.message(~DialogStateGroupFilter(state_group=SettingsSG), Command('lang'))

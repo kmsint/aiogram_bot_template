@@ -22,6 +22,7 @@ help-command = This is a bot template created by <b>Mikhail Kryzhanovsky</b>. He
                /simple - Create a simple task that will start running immediately
                /delay - Create a task that will start running in 5 seconds
                /periodic - Create a dynamically scheduled periodic task that will run every 2 minutes
+               /del_periodic - Delete all periodic tasks
 
                <b>Common commands:</b>
 
@@ -34,6 +35,10 @@ simple-task = Simple task
 task-soon = The task will be completed soon!
 
 periodic-task = This is a dynamically scheduled periodic task
+
+no-periodic-tasks = Периодические задачи отсутствуют в расписании
+
+periodic-tasks-deleted = Периодические задачи успешно удалены!
 
 about-author = About author
 
