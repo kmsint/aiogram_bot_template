@@ -88,8 +88,9 @@ async def delay_task_handler(
 
 @commands_router.message(Command('periodic'))
 async def dynamic_periodic_task_handler(
+    message: Message,
     i18n: TranslatorRunner, 
-    message: Message, redis_source: RedisScheduleSource
+    redis_source: RedisScheduleSource
 ) -> None:
     await dynamic_periodic_task.schedule_by_cron(
         source=redis_source, 
