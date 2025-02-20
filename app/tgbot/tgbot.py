@@ -25,7 +25,7 @@ from app.tgbot.handlers.errors import on_unknown_intent, on_unknown_state
 from app.tgbot.middlewares.database import DataBaseMiddleware
 from app.tgbot.middlewares.i18n import TranslatorRunnerMiddleware
 from app.tgbot.middlewares.setlang import SetLangMiddleware
-from app.tgbot.utils.i18n import create_translator_hub
+from app.tgbot.i18n.translator_hub import create_translator_hub
 from config.config import settings
 
 logger = logging.getLogger(__name__)
