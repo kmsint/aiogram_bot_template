@@ -1,8 +1,8 @@
 import logging
 
 from aiogram import Bot
-from app.services.delay_service.consumer import DelayedMessageConsumer
 
+from app.services.delay_service.consumer import DelayedMessageConsumer
 from nats.aio.client import Client
 from nats.js.client import JetStreamContext
 

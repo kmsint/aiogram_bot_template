@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 from datetime import datetime
 
-from app.infrastructure.database.models.base import BaseModel
 from app.bot.enums.roles import UserRole
+from app.infrastructure.database.models.base import BaseModel
 
 
 @dataclass

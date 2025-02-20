@@ -1,5 +1,4 @@
 import logging
-
 from typing import Awaitable, Callable
 
 from aiogram import BaseMiddleware

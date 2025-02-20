@@ -1,9 +1,10 @@
 import logging
 
-from taskiq import TaskiqScheduler, TaskiqEvents, TaskiqState
-from taskiq_redis import RedisScheduleSource
+from taskiq import TaskiqEvents, TaskiqScheduler, TaskiqState
 from taskiq.schedule_sources import LabelScheduleSource
 from taskiq_nats import NatsBroker
+from taskiq_redis import RedisScheduleSource
+
 from config.config import settings
 
 broker = NatsBroker(servers=settings.nats.servers, queue="taskiq_tasks")

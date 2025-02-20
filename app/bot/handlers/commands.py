@@ -9,6 +9,11 @@ from fluentogram import TranslatorRunner
 from taskiq import ScheduledTask
 from taskiq_redis import RedisScheduleSource
 
+from app.bot.enums.roles import UserRole
+from app.bot.filters.dialog_filters import DialogStateFilter, DialogStateGroupFilter
+from app.bot.keyboards.links_kb import get_links_kb
+from app.bot.states.settings import SettingsSG
+from app.bot.states.start import StartSG
 from app.infrastructure.database.database.db import DB
 from app.infrastructure.database.models.users import UsersModel
 from app.services.delay_service.publisher import delay_message_deletion
@@ -17,11 +22,6 @@ from app.services.scheduler.tasks import (
     scheduled_task,
     simple_task,
 )
-from app.bot.enums.roles import UserRole
-from app.bot.filters.dialog_filters import DialogStateFilter, DialogStateGroupFilter
-from app.bot.keyboards.links_kb import get_links_kb
-from app.bot.states.settings import SettingsSG
-from app.bot.states.start import StartSG
 from nats.js.client import JetStreamContext
 
 commands_router = Router()

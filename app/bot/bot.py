@@ -12,20 +12,19 @@ from aiogram_dialog import setup_dialogs
 from aiogram_dialog.api.exceptions import UnknownIntent, UnknownState
 from fluentogram import TranslatorHub
 
+from app.bot.dialogs.settings.dialogs import settings_dialog
+from app.bot.dialogs.start.dialogs import start_dialog
+from app.bot.handlers.commands import commands_router
+from app.bot.handlers.errors import on_unknown_intent, on_unknown_state
+from app.bot.i18n.translator_hub import create_translator_hub
+from app.bot.middlewares.database import DataBaseMiddleware
+from app.bot.middlewares.i18n import TranslatorRunnerMiddleware
 from app.infrastructure.cache.utils.connect_to_redis import get_redis_pool
 from app.infrastructure.database.utils.connect_to_pg import get_pg_pool
 from app.infrastructure.storage.storage.nats_storage import NatsStorage
 from app.infrastructure.storage.utils.nats_connect import connect_to_nats
 from app.services.delay_service.utils.start_consumer import start_delayed_consumer
 from app.services.scheduler.taskiq_broker import broker, redis_source
-from app.bot.dialogs.settings.dialogs import settings_dialog
-from app.bot.dialogs.start.dialogs import start_dialog
-from app.bot.handlers.commands import commands_router
-from app.bot.handlers.errors import on_unknown_intent, on_unknown_state
-from app.bot.middlewares.database import DataBaseMiddleware
-from app.bot.middlewares.i18n import TranslatorRunnerMiddleware
-from app.bot.middlewares.setlang import SetLangMiddleware
-from app.bot.i18n.translator_hub import create_translator_hub
 from config.config import settings
 
 logger = logging.getLogger(__name__)
@@ -83,11 +82,9 @@ async def main():
 
     logger.info("Including middlewares")
     dp.update.middleware(DataBaseMiddleware())
-    dp.update.middleware(SetLangMiddleware())
     dp.update.middleware(TranslatorRunnerMiddleware())
     dp.errors.middleware(DataBaseMiddleware())
     dp.errors.middleware(TranslatorRunnerMiddleware())
-    dp.errors.middleware(SetLangMiddleware())
 
     logger.info("Setting up dialogs")
     bg_factory = setup_dialogs(dp)
