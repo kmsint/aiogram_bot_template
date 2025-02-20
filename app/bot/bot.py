@@ -19,10 +19,10 @@ from app.bot.handlers.errors import on_unknown_intent, on_unknown_state
 from app.bot.i18n.translator_hub import create_translator_hub
 from app.bot.middlewares.database import DataBaseMiddleware
 from app.bot.middlewares.i18n import TranslatorRunnerMiddleware
-from app.infrastructure.cache.utils.connect_to_redis import get_redis_pool
-from app.infrastructure.database.utils.connect_to_pg import get_pg_pool
+from app.infrastructure.cache.connect_to_redis import get_redis_pool
+from app.infrastructure.database.connect_to_pg import get_pg_pool
 from app.infrastructure.storage.storage.nats_storage import NatsStorage
-from app.infrastructure.storage.utils.nats_connect import connect_to_nats
+from app.infrastructure.storage.nats_connect import connect_to_nats
 from app.services.delay_service.utils.start_consumer import start_delayed_consumer
 from app.services.scheduler.taskiq_broker import broker, redis_source
 from config.config import settings
