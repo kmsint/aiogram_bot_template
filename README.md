@@ -34,10 +34,41 @@ You can learn how to develop telegram bots using the `aiogram` framework in the 
 │   ├── env.py
 │   └── script.py.mako
 ├── 📁 app/
+│   ├── 📁 bot/
+│   │   ├── 📁 dialogs/
+│   │   │   ├── 📁 settings/
+│   │   │   │   ├── dialogs.py
+│   │   │   │   ├── getters.py
+│   │   │   │   ├── handlers.py
+│   │   │   │   └── keyboards.py
+│   │   │   └── 📁 start/
+│   │   │       ├── dialogs.py
+│   │   │       ├── getters.py
+│   │   │       └── handlers.py
+│   │   ├── 📁 enums/
+│   │   │   ├── actions.py
+│   │   │   └── roles.py
+│   │   ├── 📁 filters/
+│   │   │   └── dialog_filters.py
+│   │   ├── 📁 handlers/
+│   │   │   ├── commands.py
+│   │   │   └── errors.py
+│   │   ├── 📁 i18n/
+│   │   │   └── translator_hub.py
+│   │   ├── 📁 keyboards/
+│   │   │   ├── links_kb.py
+│   │   │   └── menu_button.py
+│   │   ├── 📁 middlewares/
+│   │   │   ├── database.py
+│   │   │   └── i18n.py
+│   │   ├── 📁 states/
+│   │   │   ├── settings.py
+│   │   │   └── start.py
+│   │   ├── __init__.py
+│   │   └── bot.py
 │   ├── 📁 infrastructure/
 │   │   ├── 📁 cache/
-│   │   │   └── 📁 utils/
-│   │   │       └── connect_to_redis.py
+│   │   │   └── connect_to_redis.py
 │   │   ├── 📁 database/
 │   │   │   ├── 📁 database/
 │   │   │   │   ├── db.py
@@ -45,54 +76,21 @@ You can learn how to develop telegram bots using the `aiogram` framework in the 
 │   │   │   ├── 📁 models/
 │   │   │   │   ├── base.py
 │   │   │   │   └── users.py
-│   │   │   └── 📁 utils/
-│   │   │       └── connect_to_pg.py
+│   │   │   └── connect_to_pg.py
 │   │   └── 📁 storage/
 │   │       ├── 📁 storage/
 │   │       │   └── nats_storage.py
-│   │       └── 📁 utils/
-│   │           └── nats_connect.py
-│   ├── 📁 services/
-│   │   ├── 📁 delay_service/
-│   │   │   ├── 📁 models/
-│   │   │   │   └── delayed_messages.py
-│   │   │   ├── 📁 utils/
-│   │   │   │   └── start_consumer.py
-│   │   │   ├── consumer.py
-│   │   │   └── publisher.py
-│   │   └── 📁 scheduler/
-│   │       ├── taskiq_broker.py
-│   │       └── tasks.py
-│   └── 📁 bot/
-│       ├── 📁 dialogs/
-│       │   ├── 📁 set_language/
-│       │   │   ├── dialogs.py
-│       │   │   ├── getters.py
-│       │   │   └── handlers.py
-│       │   └── 📁 start/
-│       │       ├── dialogs.py
-│       │       ├── getters.py
-│       │       └── handlers.py
-│       ├── 📁 enums/
-│       │   ├── actions.py
-│       │   └── roles.py
-│       ├── 📁 filters/
-│       │   └── filters.py
-│       ├── 📁 handlers/
-│       │   ├── commands.py
-│       │   └── errors.py
-│       ├── 📁 i18n/
-│       │   └── translator_hub.py
-│       ├── 📁 keyboards/
-│       │   └── menu_button.py
-│       ├── 📁 middlewares/
-│       │   ├── database.py
-│       │   ├── i18n.py
-│       │   └── setlang.py
-│       ├── 📁 states/
-│       │   └── start.py
-│       ├── __init__.py
-│       └── bot.py
+│   │       └── nats_connect.py
+│   └── 📁 services/
+│       ├── 📁 delay_service/
+│       │   ├── 📁 models/
+│       │   │   └── delayed_messages.py
+│       │   ├── consumer.py
+│       │   ├── publisher.py
+│       │   └── start_consumer.py
+│       └── 📁 scheduler/
+│           ├── taskiq_broker.py
+│           └── tasks.py
 ├── 📁 config/
 │   ├── config.py
 │   └── settings.toml
