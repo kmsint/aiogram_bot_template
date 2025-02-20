@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from datetime import datetime, timezone, timedelta
-from app.tgbot.enums.actions import Action
+from app.bot.enums.actions import Action
 
 
 @dataclass

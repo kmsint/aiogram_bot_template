@@ -2,13 +2,13 @@ from aiogram_dialog import Dialog, Window
 from aiogram_dialog.widgets.kbd import Button, Radio, Row, ScrollingGroup
 from aiogram_dialog.widgets.text import Format
 
-from app.tgbot.dialogs.settings.getters import get_set_lang
-from app.tgbot.dialogs.settings.handlers import (
+from app.bot.dialogs.settings.getters import get_set_lang
+from app.bot.dialogs.settings.handlers import (
     cancel_set_lang,
     set_radio_lang_default,
     update_user_lang,
 )
-from app.tgbot.states.settings import SettingsSG
+from app.bot.states.settings import SettingsSG
 
 settings_dialog = Dialog(
     Window(

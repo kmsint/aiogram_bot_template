@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from app.tgbot.enums.actions import Action
+from app.bot.enums.actions import Action
 from nats.js.client import JetStreamContext
 
 

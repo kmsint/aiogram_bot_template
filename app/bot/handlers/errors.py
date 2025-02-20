@@ -2,7 +2,7 @@ import logging
 
 from aiogram_dialog import DialogManager, ShowMode, StartMode
 
-from app.tgbot.states.start import StartSG
+from app.bot.states.start import StartSG
 
 logger = logging.getLogger(__name__)
 

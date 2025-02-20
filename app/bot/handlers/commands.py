@@ -17,11 +17,11 @@ from app.services.scheduler.tasks import (
     scheduled_task,
     simple_task,
 )
-from app.tgbot.enums.roles import UserRole
-from app.tgbot.filters.dialog_filters import DialogStateFilter, DialogStateGroupFilter
-from app.tgbot.keyboards.links_kb import get_links_kb
-from app.tgbot.states.settings import SettingsSG
-from app.tgbot.states.start import StartSG
+from app.bot.enums.roles import UserRole
+from app.bot.filters.dialog_filters import DialogStateFilter, DialogStateGroupFilter
+from app.bot.keyboards.links_kb import get_links_kb
+from app.bot.states.settings import SettingsSG
+from app.bot.states.start import StartSG
 from nats.js.client import JetStreamContext
 
 commands_router = Router()

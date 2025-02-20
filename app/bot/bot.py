@@ -18,14 +18,14 @@ from app.infrastructure.storage.storage.nats_storage import NatsStorage
 from app.infrastructure.storage.utils.nats_connect import connect_to_nats
 from app.services.delay_service.utils.start_consumer import start_delayed_consumer
 from app.services.scheduler.taskiq_broker import broker, redis_source
-from app.tgbot.dialogs.settings.dialogs import settings_dialog
-from app.tgbot.dialogs.start.dialogs import start_dialog
-from app.tgbot.handlers.commands import commands_router
-from app.tgbot.handlers.errors import on_unknown_intent, on_unknown_state
-from app.tgbot.middlewares.database import DataBaseMiddleware
-from app.tgbot.middlewares.i18n import TranslatorRunnerMiddleware
-from app.tgbot.middlewares.setlang import SetLangMiddleware
-from app.tgbot.i18n.translator_hub import create_translator_hub
+from app.bot.dialogs.settings.dialogs import settings_dialog
+from app.bot.dialogs.start.dialogs import start_dialog
+from app.bot.handlers.commands import commands_router
+from app.bot.handlers.errors import on_unknown_intent, on_unknown_state
+from app.bot.middlewares.database import DataBaseMiddleware
+from app.bot.middlewares.i18n import TranslatorRunnerMiddleware
+from app.bot.middlewares.setlang import SetLangMiddleware
+from app.bot.i18n.translator_hub import create_translator_hub
 from config.config import settings
 
 logger = logging.getLogger(__name__)

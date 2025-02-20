@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 from psycopg import AsyncConnection, AsyncCursor
 
 from app.infrastructure.database.models.users import UsersModel
-from app.tgbot.enums.roles import UserRole
+from app.bot.enums.roles import UserRole
 
 logger = logging.getLogger(__name__)
 

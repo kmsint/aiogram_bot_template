@@ -5,7 +5,7 @@ from aiogram import Bot
 from aiogram.exceptions import TelegramBadRequest
 
 from app.services.delay_service.models.delayed_messages import DelayedMessageDeletion
-from app.tgbot.enums.actions import Action
+from app.bot.enums.actions import Action
 from nats.aio.client import Client
 from nats.aio.msg import Msg
 from nats.js import JetStreamContext
