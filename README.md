@@ -175,7 +175,7 @@ and then the scheduler:
 taskiq scheduler app.services.scheduler.taskiq_broker:scheduler
 ```
 
-12. Run `__main__.py` to check the functionality of the template.
+12. Run `main.py` to check the functionality of the template.
 
 13. You can fill the template with the functionality you need.
 
