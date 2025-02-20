@@ -63,7 +63,7 @@ You can learn how to develop telegram bots using the `aiogram` framework in the 
 │   │   └── 📁 scheduler/
 │   │       ├── taskiq_broker.py
 │   │       └── tasks.py
-│   └── 📁 tgbot/
+│   └── 📁 bot/
 │       ├── 📁 dialogs/
 │       │   ├── 📁 set_language/
 │       │   │   ├── dialogs.py
@@ -81,6 +81,8 @@ You can learn how to develop telegram bots using the `aiogram` framework in the 
 │       ├── 📁 handlers/
 │       │   ├── commands.py
 │       │   └── errors.py
+│       ├── 📁 i18n/
+│       │   └── translator_hub.py
 │       ├── 📁 keyboards/
 │       │   └── menu_button.py
 │       ├── 📁 middlewares/
@@ -89,10 +91,8 @@ You can learn how to develop telegram bots using the `aiogram` framework in the 
 │       │   └── setlang.py
 │       ├── 📁 states/
 │       │   └── start.py
-│       ├── 📁 utils/
-│       │   └── i18n.py
 │       ├── __init__.py
-│       └── tgbot.py
+│       └── bot.py
 ├── 📁 config/
 │   ├── config.py
 │   └── settings.toml
@@ -110,13 +110,13 @@ You can learn how to develop telegram bots using the `aiogram` framework in the 
 │   │   └── server.conf
 │   └── 📁 migrations/
 │       └── create_stream.py
-├── __main__.py
 ├── .env
 ├── .env.example
 ├── .gitignore
 ├── alembic.ini
 ├── docker-compose.example
 ├── docker-compose.yml
+├── main.py
 ├── poetry.lock
 ├── pyproject.toml
 └── README.md
