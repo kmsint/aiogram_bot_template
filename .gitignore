@@ -164,3 +164,5 @@ poetry.lock
 /nats/data/
 /postgres-data/
 /pgadmin-data/
+
+test_*.py
