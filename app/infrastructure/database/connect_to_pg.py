@@ -12,15 +12,14 @@ async def get_pg_pool(
     user: str,
     password: str,
 ) -> AsyncConnectionPool:
-
     try:
         db_pool = AsyncConnectionPool(
-            conninfo=f'postgresql://{user}:{password}@{host}:{port}/{db_name}',
+            conninfo=f"postgresql://{user}:{password}@{host}:{port}/{db_name}",
             min_size=1,
             max_size=3,
-            open=False
+            open=False,
         )
-        
+
         await db_pool.open()
 
         async with db_pool.connection() as connection:
@@ -30,5 +29,8 @@ async def get_pg_pool(
                 logger.info(f"Connected to {db_version[0]}")
         return db_pool
     except Exception as e:
-        logger.exception('Something went wrong while connecting to the database with exception: %s', e)
+        logger.exception(
+            "Something went wrong while connecting to the database with exception: %s",
+            e,
+        )
         raise

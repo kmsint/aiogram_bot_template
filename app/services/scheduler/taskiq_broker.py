@@ -9,17 +9,16 @@ from config.config import settings
 
 broker = NatsBroker(servers=settings.nats.servers, queue="taskiq_tasks")
 
-redis_source = RedisScheduleSource(url=f'redis://{settings.redis.host}:{settings.redis.port}')
+redis_source = RedisScheduleSource(
+    url=f"redis://{settings.redis.host}:{settings.redis.port}"
+)
 
 scheduler = TaskiqScheduler(broker, [redis_source, LabelScheduleSource(broker)])
 
 
 @broker.on_event(TaskiqEvents.WORKER_STARTUP)
 async def startup(state: TaskiqState) -> None:
-    logging.basicConfig(
-        level=settings.logs.level_name,
-        format=settings.logs.format
-    )
+    logging.basicConfig(level=settings.logs.level_name, format=settings.logs.format)
     logger = logging.getLogger(__name__)
     logger.info("Starting scheduler...")
 

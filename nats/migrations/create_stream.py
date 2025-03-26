@@ -22,7 +22,7 @@ async def main():
         name=stream_name,
         subjects=[settings.nats.delayed_consumer_subject],
         retention="limits",  # Политика хранения сообщений (limits, interest, workqueue)
-        storage="file"  # Тип хранения сообщений (file, memory)
+        storage="file",  # Тип хранения сообщений (file, memory)
     )
 
     # Создание стрима

@@ -12,12 +12,12 @@ from app.bot.states.settings import SettingsSG
 
 settings_dialog = Dialog(
     Window(
-        Format('{set_lang}'),
+        Format("{set_lang}"),
         ScrollingGroup(
             Radio(
-                checked_text=Format('🔘 {item[0]}'),
-                unchecked_text=Format('⚪️ {item[0]}'),
-                id='radio_lang',
+                checked_text=Format("🔘 {item[0]}"),
+                unchecked_text=Format("⚪️ {item[0]}"),
+                id="radio_lang",
                 item_id_getter=lambda x: x[1],
                 items="lang_buttons",
             ),
@@ -28,18 +28,18 @@ settings_dialog = Dialog(
         ),
         Row(
             Button(
-                text=Format('{back_button}'),
-                id='set_lang_back_button_click',
+                text=Format("{back_button}"),
+                id="set_lang_back_button_click",
                 on_click=cancel_set_lang,
             ),
             Button(
-                text=Format('{save_button}'),
-                id='save_lang_button_click',
-                on_click=update_user_lang
+                text=Format("{save_button}"),
+                id="save_lang_button_click",
+                on_click=update_user_lang,
             ),
         ),
         getter=get_set_lang,
-        state=SettingsSG.lang    
+        state=SettingsSG.lang,
     ),
-    on_start=set_radio_lang_default
-)   
+    on_start=set_radio_lang_default,
+)

@@ -10,20 +10,15 @@ logger = logging.getLogger(__name__)
 
 
 async def start_delayed_consumer(
-    nc: Client, 
-    js: JetStreamContext, 
-    bot: Bot, 
-    subject: str, 
+    nc: Client,
+    js: JetStreamContext,
+    bot: Bot,
+    subject: str,
     stream: str,
-    durable_name: str
+    durable_name: str,
 ) -> None:
     consumer = DelayedMessageConsumer(
-        nc=nc, 
-        js=js, 
-        bot=bot, 
-        subject=subject, 
-        stream=stream, 
-        durable_name=durable_name
+        nc=nc, js=js, bot=bot, subject=subject, stream=stream, durable_name=durable_name
     )
-    logger.info('Start delayed message consumer')
+    logger.info("Start delayed message consumer")
     await consumer.start()

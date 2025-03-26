@@ -14,12 +14,12 @@ class DelayedMessageDeletion:
 
     def is_ready_time(self):
         return self.calc_delay() <= 0
-    
+
     def calc_delay(self):
         return (
             self.sent_time + timedelta(seconds=self.delay) - datetime.now().astimezone()
         ).total_seconds()
-    
+
     @classmethod
     def from_dict(cls, data: dict):
         return cls(
@@ -27,8 +27,7 @@ class DelayedMessageDeletion:
             chat_id=int(data.get("Tg-Delayed-Chat-ID")),
             message_id=int(data.get("Tg-Delayed-Msg-ID")),
             sent_time=datetime.fromtimestamp(
-                float(data.get("Tg-Delayed-Msg-Timestamp")), 
-                tz=timezone.utc
+                float(data.get("Tg-Delayed-Msg-Timestamp")), tz=timezone.utc
             ),
             delay=int(data.get("Tg-Delayed-Msg-Delay")),
         )

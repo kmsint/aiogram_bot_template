@@ -7,8 +7,7 @@ from app.bot import main
 from config.config import settings
 
 logging.basicConfig(
-    level=logging.getLevelName(settings.logs.level_name),
-    format=settings.logs.format
+    level=logging.getLevelName(settings.logs.level_name), format=settings.logs.format
 )
 
 if sys.platform.startswith("win") or os.name == "nt":

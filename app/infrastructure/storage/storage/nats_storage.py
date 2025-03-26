@@ -19,14 +19,13 @@ from nats.js.kv import KeyValue
 
 class NatsStorage(BaseStorage):
     def __init__(
-        self, 
-        nc: Client, 
-        js: JetStreamContext, 
-        key_builder: Optional[KeyBuilder] = None, 
-        fsm_states_bucket: str = 'fsm_states_aiogram',
-        fsm_data_bucket: str = 'fsm_data_aiogram'
+        self,
+        nc: Client,
+        js: JetStreamContext,
+        key_builder: Optional[KeyBuilder] = None,
+        fsm_states_bucket: str = "fsm_states_aiogram",
+        fsm_data_bucket: str = "fsm_data_aiogram",
     ) -> None:
-        
         if key_builder is None:
             key_builder = DefaultKeyBuilder()
         self.nc = nc
@@ -34,7 +33,7 @@ class NatsStorage(BaseStorage):
         self.fsm_states_bucket = fsm_states_bucket
         self.fsm_data_bucket = fsm_data_bucket
         self._key_builder = key_builder
-        
+
     async def create_storage(self) -> Self:
         self.kv_states = await self._get_kv_states()
         self.kv_data = await self._get_kv_data()
@@ -43,18 +42,14 @@ class NatsStorage(BaseStorage):
     async def _get_kv_states(self) -> KeyValue:
         return await self.js.create_key_value(
             config=KeyValueConfig(
-                bucket=self.fsm_states_bucket,
-                history=5,
-                storage='file'
+                bucket=self.fsm_states_bucket, history=5, storage="file"
             )
         )
-    
+
     async def _get_kv_data(self) -> KeyValue:
         return await self.js.create_key_value(
             config=KeyValueConfig(
-                bucket=self.fsm_data_bucket,
-                history=5,
-                storage='file'
+                bucket=self.fsm_data_bucket, history=5, storage="file"
             )
         )
 
@@ -81,6 +76,6 @@ class NatsStorage(BaseStorage):
             return ormsgpack.unpackb(entry.value)
         except NotFoundError:
             return {}
- 
+
     async def close(self) -> None:
         await self.nc.close()

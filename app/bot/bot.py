@@ -36,14 +36,12 @@ async def main():
     nc, js = await connect_to_nats(servers=settings.nats.servers)
 
     storage: NatsStorage = await NatsStorage(
-        nc=nc, 
-        js=js, 
-        key_builder=DefaultKeyBuilder(with_destiny=True)
+        nc=nc, js=js, key_builder=DefaultKeyBuilder(with_destiny=True)
     ).create_storage()
 
     bot = Bot(
         token=settings.bot_token,
-        default=DefaultBotProperties(parse_mode=ParseMode(settings.bot.parse_mode))
+        default=DefaultBotProperties(parse_mode=ParseMode(settings.bot.parse_mode)),
     )
     dp = Dispatcher(storage=storage)
 
@@ -96,33 +94,33 @@ async def main():
     try:
         await asyncio.gather(
             dp.start_polling(
-                bot, 
-                js=js, 
+                bot,
+                js=js,
                 delay_del_subject=settings.nats.delayed_consumer_subject,
                 bg_factory=bg_factory,
                 redis_source=redis_source,
                 bot_locales=sorted(settings.i18n.locales),
                 translator_hub=translator_hub,
-                _db_pool=db_pool
-            ), 
+                _db_pool=db_pool,
+            ),
             start_delayed_consumer(
-                nc=nc, 
-                js=js, 
-                bot=bot, 
+                nc=nc,
+                js=js,
+                bot=bot,
                 subject=settings.nats.delayed_consumer_subject,
                 stream=settings.nats.delayed_consumer_stream,
-                durable_name=settings.nats.delayed_consumer_durable_name
-            )
+                durable_name=settings.nats.delayed_consumer_durable_name,
+            ),
         )
     except Exception as e:
         logger.exception(e)
     finally:
         await nc.close()
-        logger.info('Connection to NATS closed')
+        logger.info("Connection to NATS closed")
         await db_pool.close()
-        logger.info('Connection to Postgres closed')
+        logger.info("Connection to Postgres closed")
         await broker.shutdown()
-        logger.info('Connection to taskiq-broker closed')
-        if dp.workflow_data.get('_cache_pool'):
+        logger.info("Connection to taskiq-broker closed")
+        if dp.workflow_data.get("_cache_pool"):
             await cache_pool.close()
-            logger.info('Connection to Redis closed')
+            logger.info("Connection to Redis closed")

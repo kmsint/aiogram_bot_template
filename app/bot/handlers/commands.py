@@ -29,133 +29,118 @@ commands_router = Router()
 
 @commands_router.message(CommandStart())
 async def process_start_command(
-    message: Message,
-    dialog_manager: DialogManager,
-    i18n: TranslatorRunner,
-    db: DB
+    message: Message, dialog_manager: DialogManager, i18n: TranslatorRunner, db: DB
 ) -> None:
-    user_record: UsersModel | None = await db.users.get_user_record(user_id=message.from_user.id)
+    user_record: UsersModel | None = await db.users.get_user_record(
+        user_id=message.from_user.id
+    )
     if user_record is None:
         await db.users.add(
-            user_id=message.from_user.id, 
+            user_id=message.from_user.id,
             language=message.from_user.language_code,
-            role=UserRole.USER
+            role=UserRole.USER,
         )
     await dialog_manager.start(state=StartSG.start, mode=StartMode.RESET_STACK)
 
 
 # Этот хэндлер будет срабатывать на команду /del
-@commands_router.message(Command('del'))
+@commands_router.message(Command("del"))
 async def send_and_del_message(
-    message: Message, 
-    i18n: TranslatorRunner, 
-    js: JetStreamContext, 
-    delay_del_subject: str
+    message: Message,
+    i18n: TranslatorRunner,
+    js: JetStreamContext,
+    delay_del_subject: str,
 ) -> None:
-    
     delay = 3
     msg: Message = await message.answer(text=i18n.will.delete(delay=delay))
-    
+
     await delay_message_deletion(
-        js=js,  
-        chat_id=msg.chat.id, 
+        js=js,
+        chat_id=msg.chat.id,
         message_id=msg.message_id,
-        subject=delay_del_subject, 
-        delay=delay
+        subject=delay_del_subject,
+        delay=delay,
     )
 
 
-@commands_router.message(Command('simple'))
+@commands_router.message(Command("simple"))
 async def task_handler(
-    message: Message, 
-    i18n: TranslatorRunner, 
-    redis_source: RedisScheduleSource
+    message: Message, i18n: TranslatorRunner, redis_source: RedisScheduleSource
 ) -> None:
     await simple_task.kiq()
     await message.answer(text=i18n.simple.task())
 
 
-@commands_router.message(Command('delay'))
+@commands_router.message(Command("delay"))
 async def delay_task_handler(
-    message: Message, 
-    i18n: TranslatorRunner, 
-    redis_source: RedisScheduleSource
+    message: Message, i18n: TranslatorRunner, redis_source: RedisScheduleSource
 ) -> None:
     await scheduled_task.schedule_by_time(
-        source=redis_source, 
-        time=datetime.now(timezone.utc) + timedelta(seconds=5)
+        source=redis_source, time=datetime.now(timezone.utc) + timedelta(seconds=5)
     )
     await message.answer(text=i18n.task.soon())
 
 
-@commands_router.message(Command('periodic'))
+@commands_router.message(Command("periodic"))
 async def dynamic_periodic_task_handler(
     message: Message,
     i18n: TranslatorRunner,
     state: FSMContext,
-    redis_source: RedisScheduleSource
+    redis_source: RedisScheduleSource,
 ) -> None:
     periodic_task: ScheduledTask = await dynamic_periodic_task.schedule_by_cron(
-        source=redis_source, 
-        cron='*/2 * * * *'
+        source=redis_source, cron="*/2 * * * *"
     )
 
     data: dict = await state.get_data()
-    if data.get('periodic_tasks') is None:
-        data['periodic_tasks'] = []
-    
-    data['periodic_tasks'].append(periodic_task.schedule_id)
+    if data.get("periodic_tasks") is None:
+        data["periodic_tasks"] = []
+
+    data["periodic_tasks"].append(periodic_task.schedule_id)
 
     await state.set_data(data)
 
     await message.answer(text=i18n.periodic.task())
 
 
-@commands_router.message(Command('del_periodic'))
+@commands_router.message(Command("del_periodic"))
 async def delete_all_periodic_tasks_handler(
     message: Message,
     i18n: TranslatorRunner,
     state: FSMContext,
-    redis_source: RedisScheduleSource
+    redis_source: RedisScheduleSource,
 ) -> None:
     data = await state.get_data()
-    if data.get('periodic_tasks') is None:
+    if data.get("periodic_tasks") is None:
         await message.answer(text=i18n.no.periodic.tasks())
     else:
-        for task_id in data.get('periodic_tasks'):
+        for task_id in data.get("periodic_tasks"):
             await redis_source.delete_schedule(task_id)
         await message.answer(text=i18n.periodic.tasks.deleted())
 
 
-@commands_router.message(~DialogStateGroupFilter(state_group=SettingsSG), Command('lang'))
+@commands_router.message(
+    ~DialogStateGroupFilter(state_group=SettingsSG), Command("lang")
+)
 async def process_lang_command_sg(
-    message: Message,
-    dialog_manager: DialogManager,
-    i18n: TranslatorRunner
+    message: Message, dialog_manager: DialogManager, i18n: TranslatorRunner
 ) -> None:
     await dialog_manager.start(state=SettingsSG.lang)
 
 
 @commands_router.message(
-        DialogStateGroupFilter(state_group=SettingsSG), 
-        ~DialogStateFilter(state=SettingsSG.lang), 
-        Command('lang')
-    )
+    DialogStateGroupFilter(state_group=SettingsSG),
+    ~DialogStateFilter(state=SettingsSG.lang),
+    Command("lang"),
+)
 async def process_lang_command(
-    message: Message,
-    dialog_manager: DialogManager,
-    i18n: TranslatorRunner
+    message: Message, dialog_manager: DialogManager, i18n: TranslatorRunner
 ) -> None:
     await dialog_manager.switch_to(state=SettingsSG.lang)
 
 
-@commands_router.message(Command('help'))
+@commands_router.message(Command("help"))
 async def process_help_command(
-    message: Message,
-    dialog_manager: DialogManager,
-    i18n: TranslatorRunner
+    message: Message, dialog_manager: DialogManager, i18n: TranslatorRunner
 ) -> None:
-    await message.answer(
-        text=i18n.help.command(),
-        reply_markup=get_links_kb(i18n=i18n)
-    )
+    await message.answer(text=i18n.help.command(), reply_markup=get_links_kb(i18n=i18n))

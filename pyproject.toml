@@ -14,12 +14,12 @@ aiogram-dialog = "^2.1.0"
 fluentogram = "^1.1.7"
 redis = "^5.0.7"
 alembic = "^1.13.2"
-taskiq-aiogram = "^0.3.1"
 taskiq-nats = "^0.4.0"
 dynaconf = "^3.2.6"
 psycopg = "^3.2.1"
 psycopg-pool = "^3.2.2"
 taskiq-redis = "^1.0.2"
+ruff = "^0.9.10"
 
 
 [tool.poetry.group.dev.dependencies]
