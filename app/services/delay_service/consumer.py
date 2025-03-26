@@ -40,7 +40,7 @@ class DelayedMessageConsumer:
         )
 
     async def on_message(self, msg: Msg):
-        if msg.headers.get("Tg-Delayed-Type") == Action.DELETE.value:
+        if msg.headers.get("Tg-Delayed-Type") == Action.DELETE:
             msg_to_delete = DelayedMessageDeletion.from_dict(msg.headers)
             if msg_to_delete.is_ready_time():
                 # Если время обработки наступило - пытаемся удалить сообщение в чате
@@ -53,7 +53,7 @@ class DelayedMessageConsumer:
             else:
                 # Отправляем nak с временем задержки
                 await msg.nak(delay=msg_to_delete.calc_delay())
-        elif msg.headers.get("Tg-Delayed-Type") == Action.POST.value:
+        elif msg.headers.get("Tg-Delayed-Type") == Action.POST:
             pass
         else:
             raise Exception("Unknown Msg Type")
