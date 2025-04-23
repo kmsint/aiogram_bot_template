@@ -1,4 +1,5 @@
 import logging
+from urllib.parse import quote_plus
 
 from psycopg_pool import AsyncConnectionPool
 
@@ -14,7 +15,7 @@ async def get_pg_pool(
 ) -> AsyncConnectionPool:
     try:
         db_pool = AsyncConnectionPool(
-            conninfo=f"postgresql://{user}:{password}@{host}:{port}/{db_name}",
+            conninfo = f"postgresql://{quote_plus(user)}:{quote_plus(password)}@{host}:{port}/{db_name}",
             min_size=1,
             max_size=3,
             open=False,
