@@ -34,17 +34,19 @@ You can learn how to develop telegram bots using the `aiogram` framework in the 
 │   ├── env.py
 │   └── script.py.mako
 ├── 📁 app/
-│   ├── 📁 bot/
 │   │   ├── 📁 dialogs/
-│   │   │   ├── 📁 settings/
-│   │   │   │   ├── dialogs.py
-│   │   │   │   ├── getters.py
-│   │   │   │   ├── handlers.py
-│   │   │   │   └── keyboards.py
-│   │   │   └── 📁 start/
-│   │   │       ├── dialogs.py
-│   │   │       ├── getters.py
-│   │   │       └── handlers.py
+│   │   │   ├── 📁 flows/
+│   │   │   │   ├── 📁 settings/
+│   │   │   │   │   ├── dialogs.py
+│   │   │   │   │   ├── getters.py
+│   │   │   │   │   ├── handlers.py
+│   │   │   │   │   └── keyboards.py
+│   │   │   │   └── 📁 start/
+│   │   │   │       ├── dialogs.py
+│   │   │   │       ├── getters.py
+│   │   │   │       └── handlers.py
+│   │   │   └── 📁 widgets/
+│   │   │       └── i18n.py
 │   │   ├── 📁 enums/
 │   │   │   ├── actions.py
 │   │   │   └── roles.py
@@ -163,7 +165,7 @@ alembic upgrade head
 
 10. Run `create_stream.py` to create NATS stream for delayed messages service:
 ```bash
-python3 nats/migrations/create_stream.py
+python3 -m nats.migrations.create_stream
 ```
 
 11. If you want to use the Taskiq broker for background tasks as well as the Taskiq scheduler, add your tasks to the `tasks.py` module and start the worker first:
