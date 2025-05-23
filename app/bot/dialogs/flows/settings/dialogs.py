@@ -2,17 +2,18 @@ from aiogram_dialog import Dialog, Window
 from aiogram_dialog.widgets.kbd import Button, Radio, Row, ScrollingGroup
 from aiogram_dialog.widgets.text import Format
 
-from app.bot.dialogs.settings.getters import get_set_lang
-from app.bot.dialogs.settings.handlers import (
+from app.bot.dialogs.flows.settings.getters import get_set_lang
+from app.bot.dialogs.flows.settings.handlers import (
     cancel_set_lang,
     set_radio_lang_default,
     update_user_lang,
 )
+from app.bot.dialogs.widgets.i18n import I18nFormat
 from app.bot.states.settings import SettingsSG
 
 settings_dialog = Dialog(
     Window(
-        Format("{set_lang}"),
+        I18nFormat("set-lang"),
         ScrollingGroup(
             Radio(
                 checked_text=Format("🔘 {item[0]}"),
@@ -28,12 +29,12 @@ settings_dialog = Dialog(
         ),
         Row(
             Button(
-                text=Format("{back_button}"),
+                text=I18nFormat("back-button"),
                 id="set_lang_back_button_click",
                 on_click=cancel_set_lang,
             ),
             Button(
-                text=Format("{save_button}"),
+                text=I18nFormat("save-button"),
                 id="save_lang_button_click",
                 on_click=update_user_lang,
             ),
