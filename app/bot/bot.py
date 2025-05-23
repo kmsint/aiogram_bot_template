@@ -12,15 +12,15 @@ from aiogram_dialog import setup_dialogs
 from aiogram_dialog.api.exceptions import UnknownIntent, UnknownState
 from fluentogram import TranslatorHub
 
-from app.bot.dialogs.settings.dialogs import settings_dialog
-from app.bot.dialogs.start.dialogs import start_dialog
+from app.bot.dialogs.flows.settings.dialogs import settings_dialog
+from app.bot.dialogs.flows.start.dialogs import start_dialog
 from app.bot.handlers.commands import commands_router
 from app.bot.handlers.errors import on_unknown_intent, on_unknown_state
 from app.bot.i18n.translator_hub import create_translator_hub
 from app.bot.middlewares.database import DataBaseMiddleware
 from app.bot.middlewares.i18n import TranslatorRunnerMiddleware
 from app.infrastructure.cache.connect_to_redis import get_redis_pool
-from app.infrastructure.database.connect_to_pg import get_pg_pool
+from app.infrastructure.database.connection.connect_to_pg import get_pg_pool
 from app.infrastructure.storage.storage.nats_storage import NatsStorage
 from app.infrastructure.storage.nats_connect import connect_to_nats
 from app.services.delay_service.start_consumer import start_delayed_consumer

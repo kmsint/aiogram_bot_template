@@ -1,31 +1,19 @@
-[tool.poetry]
+[project]
 name = "aiogram-bot-template"
 version = "0.1.0"
-description = "Aiogram 3 bot template by kmsint"
-authors = ["kmsint <kmsrus@gmail.com>"]
+description = "Add your description here"
 readme = "README.md"
-
-[tool.poetry.dependencies]
-python = "^3.12"
-aiogram = "^3.10.0"
-nats-py = "^2.8.0"
-ormsgpack = "^1.5.0"
-aiogram-dialog = "^2.1.0"
-fluentogram = "^1.1.7"
-redis = "^5.0.7"
-alembic = "^1.13.2"
-taskiq-nats = "^0.4.0"
-dynaconf = "^3.2.6"
-psycopg = "^3.2.1"
-psycopg-pool = "^3.2.2"
-taskiq-redis = "^1.0.2"
-ruff = "^0.9.10"
-
-
-[tool.poetry.group.dev.dependencies]
-mypy = "^1.11.0"
-flake8 = "^7.1.0"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires-python = ">=3.11"
+dependencies = [
+    "aiogram>=3.20.0.post0",
+    "aiogram-dialog>=2.3.1",
+    "alembic>=1.15.2",
+    "dynaconf>=3.2.10",
+    "fluentogram>=1.1.10",
+    "ormsgpack>=1.9.1",
+    "psycopg>=3.2.7",
+    "psycopg-pool>=3.2.6",
+    "taskiq>=0.11.17",
+    "taskiq-nats>=0.5.1",
+    "taskiq-redis>=1.0.8",
+]

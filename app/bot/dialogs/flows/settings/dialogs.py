@@ -8,12 +8,11 @@ from app.bot.dialogs.flows.settings.handlers import (
     set_radio_lang_default,
     update_user_lang,
 )
-from app.bot.dialogs.widgets.i18n import I18nFormat
 from app.bot.states.settings import SettingsSG
 
 settings_dialog = Dialog(
     Window(
-        I18nFormat("set-lang"),
+        Format("{set_lang}"),
         ScrollingGroup(
             Radio(
                 checked_text=Format("🔘 {item[0]}"),
@@ -29,12 +28,12 @@ settings_dialog = Dialog(
         ),
         Row(
             Button(
-                text=I18nFormat("back-button"),
+                text=Format("{back_button}"),
                 id="set_lang_back_button_click",
                 on_click=cancel_set_lang,
             ),
             Button(
-                text=I18nFormat("save-button"),
+                text=Format("{save_button}"),
                 id="save_lang_button_click",
                 on_click=update_user_lang,
             ),

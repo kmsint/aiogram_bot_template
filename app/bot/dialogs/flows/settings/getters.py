@@ -2,7 +2,7 @@ from aiogram_dialog import DialogManager
 from aiogram_dialog.widgets.kbd import ManagedRadio
 from fluentogram import TranslatorHub, TranslatorRunner
 
-from app.bot.dialogs.settings.keyboards import get_lang_buttons
+from app.bot.dialogs.flows.settings.keyboards import get_lang_buttons
 
 
 async def get_set_lang(dialog_manager: DialogManager, i18n: TranslatorRunner, **kwargs):

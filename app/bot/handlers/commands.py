@@ -14,7 +14,7 @@ from app.bot.filters.dialog_filters import DialogStateFilter, DialogStateGroupFi
 from app.bot.keyboards.links_kb import get_links_kb
 from app.bot.states.settings import SettingsSG
 from app.bot.states.start import StartSG
-from app.infrastructure.database.database.db import DB
+from app.infrastructure.database.db import DB
 from app.infrastructure.database.models.users import UsersModel
 from app.services.delay_service.publisher import delay_message_deletion
 from app.services.scheduler.tasks import (

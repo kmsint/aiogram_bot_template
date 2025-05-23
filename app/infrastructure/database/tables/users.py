@@ -46,8 +46,8 @@ class _UsersDB:
     async def delete(self, *, user_id: int) -> None:
         await self.connection.execute(
             """
-            DELETE FROM users WHERE user_id = %s;
-        """,
+                DELETE FROM users WHERE user_id = %s;
+            """,
             (user_id,),
         )
         logger.info("User deleted. db='%s', user_id='%d'", self.__tablename__, user_id)
@@ -56,16 +56,16 @@ class _UsersDB:
         cursor: AsyncCursor = await self.connection.execute(
             """
             SELECT id,
-                    user_id,
-                    created,
-                    tz_region,
-                    tz_offset,
-                    longitude,
-                    latitude,
-                    language,
-                    role,
-                    is_alive,
-                    is_blocked
+                   user_id,
+                   created,
+                   tz_region,
+                   tz_offset,
+                   longitude,
+                   latitude,
+                   language,
+                   role,
+                   is_alive,
+                   is_blocked
             FROM users
             WHERE users.user_id = %s
         """,
@@ -77,10 +77,10 @@ class _UsersDB:
     async def update_alive_status(self, *, user_id: int, is_alive: bool = True) -> None:
         await self.connection.execute(
             """
-            UPDATE users
-            SET is_alive = %s
-            WHERE user_id = %s
-        """,
+                UPDATE users
+                SET is_alive = %s
+                WHERE user_id = %s
+            """,
             (is_alive, user_id),
         )
         logger.info(
@@ -93,10 +93,10 @@ class _UsersDB:
     async def update_user_lang(self, *, user_id: int, user_lang: str) -> None:
         await self.connection.execute(
             """
-            UPDATE users
-            SET language = %s
-            WHERE user_id = %s
-        """,
+                UPDATE users
+                SET language = %s
+                WHERE user_id = %s
+            """,
             (user_lang, user_id),
         )
         logger.info(

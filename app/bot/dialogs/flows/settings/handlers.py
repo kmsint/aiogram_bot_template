@@ -5,7 +5,7 @@ from aiogram_dialog import DialogManager
 from aiogram_dialog.widgets.kbd import Button, ManagedRadio
 from fluentogram import TranslatorHub, TranslatorRunner
 
-from app.infrastructure.database.database.db import DB
+from app.infrastructure.database.db import DB
 from app.infrastructure.database.models.users import UsersModel
 
 logger = logging.getLogger(__name__)

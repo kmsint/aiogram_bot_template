@@ -1,6 +1,6 @@
 from psycopg import AsyncConnection
 
-from app.infrastructure.database.database.users import _UsersDB
+from app.infrastructure.database.tables.users import _UsersDB
 
 
 class DB:
