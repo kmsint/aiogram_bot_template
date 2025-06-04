@@ -1,14 +1,14 @@
 import logging
 
-from aiogram import Bot
-from aiogram.types import BotCommand, BotCommandScopeDefault
+from aiogram.types import BotCommand
 from fluentogram import TranslatorRunner
 
 logger = logging.getLogger(__name__)
 
 
-async def set_main_menu_button(bot: Bot, i18n: TranslatorRunner):
+def get_main_menu_commands(i18n: TranslatorRunner):
     menu_commands = {
+        "/start": i18n.start.command.description(),
         "/lang": i18n.lang.command.description(),
         "/help": i18n.help.command.description(),
     }
@@ -16,4 +16,4 @@ async def set_main_menu_button(bot: Bot, i18n: TranslatorRunner):
         BotCommand(command=command, description=description)
         for command, description in menu_commands.items()
     ]
-    await bot.set_my_commands(main_menu_commands, scope=BotCommandScopeDefault())
+    return main_menu_commands

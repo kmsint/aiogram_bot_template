@@ -1,6 +1,9 @@
 start-hello = Hello, { $username }!
+              {""}
+
+bot-desription = This is a bot template created by <b>Mikhail Kryzhanovsky</b>. He is the author of courses on telegram bots on Stepik.
               
-              /help
+                 /help
 
 will-delete = This message will be deleted after { $delay ->
                 [one] { $delay } second
@@ -73,3 +76,9 @@ fr-lang = 🇫🇷 Franch
 de-lang = 🇩🇪 German
 
 lang-saved = ✅ The language settings have been saved successfully!
+
+start-command-description = Restart the bot
+
+lang-command-description = Configure the interface language
+
+help-command-description = View the help for the bot

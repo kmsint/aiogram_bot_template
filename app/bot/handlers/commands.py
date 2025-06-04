@@ -1,9 +1,10 @@
 from datetime import datetime, timedelta, timezone
 
-from aiogram import Router
+from aiogram import Bot, Router
+from aiogram.enums import BotCommandScopeType
 from aiogram.filters import Command, CommandStart
 from aiogram.fsm.context import FSMContext
-from aiogram.types import Message
+from aiogram.types import BotCommandScopeChat, Message
 from aiogram_dialog import DialogManager, StartMode
 from fluentogram import TranslatorRunner
 from taskiq import ScheduledTask
@@ -14,6 +15,7 @@ from app.bot.filters.dialog_filters import DialogStateFilter, DialogStateGroupFi
 from app.bot.keyboards.links_kb import get_links_kb
 from app.bot.dialogs.flows.settings.states import SettingsSG
 from app.bot.dialogs.flows.start.states import StartSG
+from app.bot.keyboards.menu_button import get_main_menu_commands
 from app.infrastructure.database.db import DB
 from app.infrastructure.database.models.user import UserModel
 from app.services.delay_service.publisher import delay_message_deletion
@@ -31,6 +33,7 @@ commands_router = Router()
 async def process_start_command(
     message: Message,
     dialog_manager: DialogManager,
+    bot: Bot,
     i18n: TranslatorRunner,
     db: DB,
     user_row: UserModel | None,
@@ -41,6 +44,13 @@ async def process_start_command(
             language=message.from_user.language_code,
             role=UserRole.USER,
         )
+    await bot.set_my_commands(
+        commands=get_main_menu_commands(i18n=i18n),
+        scope=BotCommandScopeChat(
+            type=BotCommandScopeType.CHAT,
+            chat_id=message.from_user.id
+        )
+    )
     await dialog_manager.start(state=StartSG.start, mode=StartMode.RESET_STACK)
 
 
