@@ -85,8 +85,8 @@ services:
       - "${NATS_PORT}:4222"
       - "${NATS_MONITORING_PORT}:8222"
     volumes:
-      - ./nats/.nats_data:/data
-      - ./nats/config/server.conf:/config/server.conf
+      - ./nats_broker/.nats_data:/data
+      - ./nats_broker/config/server.conf:/config/server.conf
     healthcheck:
       test: ["CMD", "nats-server", "-sl"]
       interval: 5s
@@ -112,7 +112,7 @@ services:
       NUI_USERNAME: ${NUI_USERNAME}
       NUI_PASSWORD: ${NUI_PASSWORD}
     volumes:
-      - ./.nui/db:/db
+      - ./.nui_data/db:/db
     logging:
       driver: "json-file"
       options:
