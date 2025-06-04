@@ -161,8 +161,8 @@ poetry.lock
 # .vscode
 /docker-compose.yml
 /nui/
-/nats/data/
-/postgres-data/
-/pgadmin-data/
+.nats_data/
+.postgres-data/
+.pgadmin-data/
 
 test_*.py
