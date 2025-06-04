@@ -1,57 +1,130 @@
 services:
-
-  redis:
-    image: redis:latest
-    command:
-      - redis-server
-    env_file:
-      - .env
-    restart: on-failure
-    ports:
-      - "6379:6379"
-
   postgres:
-    image: postgres
+    image: postgres:17-alpine
+    container_name: postgres
     env_file:
       - .env
-    restart: on-failure
-    ports:
-      - "5432:5432"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
-      - ./postgres-data:/var/lib/postgresql/data
-  
+      - ./.postgres_data:/var/lib/postgresql/data
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+        compress: "true"
+    networks:
+      - app_network
+
   pgadmin:
     image: dpage/pgadmin4
-    container_name: pgadmin4_container
-    restart: on-failure
-    ports:
-      - "8888:80"
+    container_name: pgadmin
     env_file:
       - .env
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     volumes:
-      - ./pgadmin-data:/var/lib/pgadmin
+      - ./.pgadmin_data:/var/lib/pgadmin
+    ports:
+      - "${PGADMIN_PORT}:80"
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+        compress: "true"
+    networks:
+      - app_network
+
+  redis:
+    image: redis:7.4-alpine
+    container_name: redis
+    env_file: 
+      - .env
+    volumes:
+      - ./.redis_data:/data
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT}:6379"
+    command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD}"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "PING"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+        compress: "true"
 
   nats:
     image: nats:latest
+    container_name: nats
     entrypoint: /nats-server
     command: "-c /config/server.conf"
     ports:
-      - "4222:4222"
-      - "8222:8222"
+      - "${NATS_PORT}:4222"
+      - "${NATS_MONITORING_PORT}:8222"
     volumes:
-      - ./nats/data:/data
+      - ./nats/.nats_data:/data
       - ./nats/config/server.conf:/config/server.conf
+    healthcheck:
+      test: ["CMD", "nats-server", "-sl"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+        compress: "true"
+    networks:
+      - app_network
   
   nats-nui:
     image: ghcr.io/nats-nui/nui:latest
     container_name: nats-nui
+    env_file: 
+      - .env
     ports:
-      - "31311:31311"  # Порт для доступа к NATS NUI
+      - "${NUI_PORT}:31311"
+    environment:
+      NUI_USERNAME: ${NUI_USERNAME}
+      NUI_PASSWORD: ${NUI_PASSWORD}
     volumes:
-      - ./nui/db:/db
+      - ./.nui/db:/db
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+        compress: "true"
+    networks:
+      - app_network
     depends_on:
-      - nats
+      nats:
+        condition: service_healthy
 
-# volumes:
-#   data:
-#   config:
+networks:
+  app_network:
+    name: app_network
