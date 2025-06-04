@@ -105,7 +105,7 @@ You can learn how to develop telegram bots using the `aiogram` framework in the 
 │       ├── 📁 LC_MESSAGES/
 │       │   └── txt.ftl
 │       └── 📁 static/
-├── 📁 nats/
+├── 📁 nats_broker/
 │   ├── 📁 config/
 │   │   └── server.conf
 │   └── 📁 migrations/
@@ -165,7 +165,7 @@ alembic upgrade head
 
 10. Run `create_stream.py` to create NATS stream for delayed messages service:
 ```bash
-python3 -m nats.migrations.create_stream
+python3 -m nats_broker.migrations.create_stream
 ```
 
 11. If you want to use the Taskiq broker for background tasks as well as the Taskiq scheduler, add your tasks to the `tasks.py` module and start the worker first:

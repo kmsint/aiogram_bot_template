@@ -6,7 +6,7 @@ from aiogram_dialog.widgets.kbd import Button, ManagedRadio
 from fluentogram import TranslatorHub, TranslatorRunner
 
 from app.infrastructure.database.db import DB
-from app.infrastructure.database.models.users import UsersModel
+from app.infrastructure.database.models.user import UserModel
 
 logger = logging.getLogger(__name__)
 
@@ -15,7 +15,7 @@ async def set_radio_lang_default(_, dialog_manager: DialogManager):
     user: User = dialog_manager.middleware_data.get("event_from_user")
     locales: list[str] = dialog_manager.middleware_data.get("bot_locales")
     db: DB = dialog_manager.middleware_data.get("db")
-    user_record: UsersModel = await db.users.get_user_record(user_id=user.id)
+    user_record: UserModel = await db.users.get_user(user_id=user.id)
     item_id = str(locales.index(user_record.language) + 1)
     radio: ManagedRadio = dialog_manager.find("radio_lang")
 

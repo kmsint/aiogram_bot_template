@@ -18,6 +18,7 @@ from app.bot.handlers.commands import commands_router
 from app.bot.handlers.errors import on_unknown_intent, on_unknown_state
 from app.bot.i18n.translator_hub import create_translator_hub
 from app.bot.middlewares.database import DataBaseMiddleware
+from app.bot.middlewares.get_user import GetUserMiddleware
 from app.bot.middlewares.i18n import TranslatorRunnerMiddleware
 from app.infrastructure.cache.connect_to_redis import get_redis_pool
 from app.infrastructure.database.connection.connect_to_pg import get_pg_pool
@@ -44,7 +45,6 @@ async def main():
         default=DefaultBotProperties(parse_mode=ParseMode(settings.bot.parse_mode)),
     )
     dp = Dispatcher(storage=storage)
-
     if settings.cache.use_cache:
         cache_pool: redis.asyncio.Redis = await get_redis_pool(
             db=settings.redis.database,
@@ -80,8 +80,10 @@ async def main():
 
     logger.info("Including middlewares")
     dp.update.middleware(DataBaseMiddleware())
+    dp.update.middleware(GetUserMiddleware())
     dp.update.middleware(TranslatorRunnerMiddleware())
     dp.errors.middleware(DataBaseMiddleware())
+    dp.errors.middleware(GetUserMiddleware())
     dp.errors.middleware(TranslatorRunnerMiddleware())
 
     logger.info("Setting up dialogs")
@@ -101,7 +103,7 @@ async def main():
                 redis_source=redis_source,
                 bot_locales=sorted(settings.i18n.locales),
                 translator_hub=translator_hub,
-                _db_pool=db_pool,
+                db_pool=db_pool,
             ),
             start_delayed_consumer(
                 nc=nc,

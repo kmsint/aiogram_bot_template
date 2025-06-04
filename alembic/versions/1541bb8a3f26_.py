@@ -22,7 +22,7 @@ def upgrade() -> None:
         CREATE TABLE IF NOT EXISTS users(
             id SERIAL PRIMARY KEY,
             user_id BIGINT NOT NULL UNIQUE,
-            created TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+            created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
             tz_region VARCHAR(50),
             tz_offset VARCHAR(10),
             longitude REAL,
@@ -30,7 +30,7 @@ def upgrade() -> None:
             language VARCHAR(10),
             role VARCHAR(30),
             is_alive BOOLEAN NOT NULL,
-            is_blocked BOOLEAN NOT NULL
+            banned BOOLEAN NOT NULL
         );
     """)
 

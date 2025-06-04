@@ -1,17 +1,25 @@
 from typing import Any
-from app.infrastructure.database.query.results import MultipleQueryResults, SingleQueryResult
+from app.infrastructure.database.query.results import MultipleQueryResult, SingleQueryResult
 
 
 class BaseConnection:
-    async def _fetch(
+    async def execute(
         self,
         sql: str,
         params: tuple[Any, ...] | list[tuple[Any, ...]] | None = None,
         connection: Any | None = None,
-    ) -> MultipleQueryResults:
+    ) -> None:
+        raise NotImplementedError
+    
+    async def fetchmany(
+        self,
+        sql: str,
+        params: tuple[Any, ...] | list[tuple[Any, ...]] | None = None,
+        connection: Any | None = None,
+    ) -> MultipleQueryResult:
         raise NotImplementedError
 
-    async def _fetchrow(
+    async def fetchone(
         self,
         sql: str,
         params: tuple[Any, ...] | list[tuple[Any, ...]] | None = None,
@@ -19,10 +27,3 @@ class BaseConnection:
     ) -> SingleQueryResult:
         raise NotImplementedError
 
-    async def _execute(
-        self,
-        sql: str,
-        params: tuple[Any, ...] | list[tuple[Any, ...]] | None = None,
-        connection: Any | None = None,
-    ) -> None:
-        raise NotImplementedError

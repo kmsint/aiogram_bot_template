@@ -15,7 +15,7 @@ from app.bot.keyboards.links_kb import get_links_kb
 from app.bot.states.settings import SettingsSG
 from app.bot.states.start import StartSG
 from app.infrastructure.database.db import DB
-from app.infrastructure.database.models.users import UsersModel
+from app.infrastructure.database.models.user import UserModel
 from app.services.delay_service.publisher import delay_message_deletion
 from app.services.scheduler.tasks import (
     dynamic_periodic_task,
@@ -29,12 +29,10 @@ commands_router = Router()
 
 @commands_router.message(CommandStart())
 async def process_start_command(
-    message: Message, dialog_manager: DialogManager, i18n: TranslatorRunner, db: DB
+    message: Message, dialog_manager: DialogManager, i18n: TranslatorRunner, db: DB, user_row: UserModel | None
 ) -> None:
-    user_record: UsersModel | None = await db.users.get_user_record(
-        user_id=message.from_user.id
-    )
-    if user_record is None:
+    
+    if user_row is None:
         await db.users.add(
             user_id=message.from_user.id,
             language=message.from_user.language_code,

@@ -10,6 +10,7 @@ dependencies = [
     "alembic>=1.15.2",
     "dynaconf>=3.2.10",
     "fluentogram>=1.1.10",
+    "nats-py>=2.10.0",
     "ormsgpack>=1.9.1",
     "psycopg>=3.2.7",
     "psycopg-pool>=3.2.6",
