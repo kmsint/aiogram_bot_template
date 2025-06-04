@@ -24,8 +24,12 @@ class UserModel(BaseModel):
         None, description="Latitude coordinate of user's location"
     )
     language: str = Field(..., description="Preferred language code (e.g., 'ru', 'en')")
-    role: UserRole = Field(..., description="User role within the bot (e.g., admin, user)")
-    is_alive: bool = Field(..., description="Whether the user is considered active in the system")
+    role: UserRole = Field(
+        ..., description="User role within the bot (e.g., admin, user)"
+    )
+    is_alive: bool = Field(
+        ..., description="Whether the user is considered active in the system"
+    )
     banned: bool = Field(..., description="Whether the user is banned or blocked")
 
     class Config:
@@ -44,14 +48,9 @@ class UserModel(BaseModel):
                 "language": "ru",
                 "role": "user",
                 "is_alive": True,
-                "banned": False
+                "banned": False,
             }
         }
-
-
-
-
-
 
 
 from datetime import datetime
@@ -64,7 +63,9 @@ from app.bot.enums.roles import UserRole
 class UserModel(BaseModel):
     id: int = Field(..., description="Primary key")
     user_id: int = Field(..., description="Telegram user ID")
-    created_at: datetime = Field(..., description="Date and time when the record was created")
+    created_at: datetime = Field(
+        ..., description="Date and time when the record was created"
+    )
     tz_region: str | None = Field(..., description="")
     tz_offset: str | None
     longitude: float | None

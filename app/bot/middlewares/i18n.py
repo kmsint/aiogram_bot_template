@@ -21,8 +21,8 @@ class TranslatorRunnerMiddleware(BaseMiddleware):
 
         if user is None:
             return await handler(event, data)
-        
-        user_row: UserModel = data.get('user_row')
+
+        user_row: UserModel = data.get("user_row")
 
         if user_row and user_row.language:
             user_lang = user_row.language

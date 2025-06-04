@@ -18,3 +18,8 @@ dependencies = [
     "taskiq-nats>=0.5.1",
     "taskiq-redis>=1.0.8",
 ]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.11.12",
+]

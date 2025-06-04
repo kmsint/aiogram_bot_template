@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 class BaseTable:
     __tablename__: str
-    
+
     def __init__(self, connection: BaseConnection):
         self.connection = connection
 
@@ -17,9 +17,9 @@ class BaseTable:
             "Table='%s', Action='%s', Details: %s",
             self.__tablename__,
             action,
-            ", ".join(f"{k}={v}" for k, v in kwargs.items())
+            ", ".join(f"{k}={v}" for k, v in kwargs.items()),
         )
-    
+
     @property
     def tablename(self) -> str:
         return self.__tablename__

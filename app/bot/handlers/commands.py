@@ -29,9 +29,12 @@ commands_router = Router()
 
 @commands_router.message(CommandStart())
 async def process_start_command(
-    message: Message, dialog_manager: DialogManager, i18n: TranslatorRunner, db: DB, user_row: UserModel | None
+    message: Message,
+    dialog_manager: DialogManager,
+    i18n: TranslatorRunner,
+    db: DB,
+    user_row: UserModel | None,
 ) -> None:
-    
     if user_row is None:
         await db.users.add(
             user_id=message.from_user.id,

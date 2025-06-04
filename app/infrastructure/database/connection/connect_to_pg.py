@@ -46,7 +46,9 @@ async def get_pg_connection(
     conninfo = build_pg_conninfo(db_name, host, port, user, password)
 
     try:
-        connection = await AsyncConnection.connect(conninfo=conninfo, row_factory=dict_row)
+        connection = await AsyncConnection.connect(
+            conninfo=conninfo, row_factory=dict_row
+        )
         await log_db_version(connection)
         return connection
     except Exception as e:

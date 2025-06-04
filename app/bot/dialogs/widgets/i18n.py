@@ -10,7 +10,7 @@ class I18nFormat(Text):
         self.key = key
 
     async def _render_text(self, data: dict, dialog_manager: DialogManager) -> str:
-        i18n: TranslatorRunner = dialog_manager.middleware_data.get('i18n')
+        i18n: TranslatorRunner = dialog_manager.middleware_data.get("i18n")
         value = i18n.get(self.key, **data)
         if value is None:
             raise KeyError(f'Translation key="{self.key}" not found')

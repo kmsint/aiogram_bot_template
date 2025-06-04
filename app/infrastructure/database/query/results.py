@@ -33,7 +33,9 @@ class MultipleQueryResult:
         return [model(**row) for row in self._data]
 
     def first(self) -> SingleQueryResult:
-        return SingleQueryResult(self._data[0]) if self._data else SingleQueryResult(None)
+        return (
+            SingleQueryResult(self._data[0]) if self._data else SingleQueryResult(None)
+        )
 
     def __iter__(self) -> Iterator[dict[str, Any]]:
         return iter(self._data)

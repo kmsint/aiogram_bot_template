@@ -1,5 +1,8 @@
 from typing import Any
-from app.infrastructure.database.query.results import MultipleQueryResult, SingleQueryResult
+from app.infrastructure.database.query.results import (
+    MultipleQueryResult,
+    SingleQueryResult,
+)
 
 
 class BaseConnection:
@@ -10,7 +13,7 @@ class BaseConnection:
         connection: Any | None = None,
     ) -> None:
         raise NotImplementedError
-    
+
     async def fetchmany(
         self,
         sql: str,
@@ -26,4 +29,3 @@ class BaseConnection:
         connection: Any | None = None,
     ) -> SingleQueryResult:
         raise NotImplementedError
-

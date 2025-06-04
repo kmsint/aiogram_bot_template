@@ -34,13 +34,13 @@ class UsersTable(BaseTable):
             params=(user_id, language, role, is_alive, banned),
         )
         self._log(
-            UsersTableAction.ADD, 
-            user_id=user_id, 
-            created_at=datetime.now(timezone.utc), 
-            language=language, 
-            role=role, 
-            is_alive=is_alive, 
-            banned=banned
+            UsersTableAction.ADD,
+            user_id=user_id,
+            created_at=datetime.now(timezone.utc),
+            language=language,
+            role=role,
+            is_alive=is_alive,
+            banned=banned,
         )
 
     async def delete(self, *, user_id: int) -> None:
@@ -54,7 +54,7 @@ class UsersTable(BaseTable):
 
     async def get_user(self, *, user_id: int) -> UserModel | None:
         data: SingleQueryResult = await self.connection.fetchone(
-            sql = """
+            sql="""
                 SELECT id,
                     user_id,
                     created_at,
@@ -86,7 +86,9 @@ class UsersTable(BaseTable):
             """,
             params=(is_alive, user_id),
         )
-        self._log(UsersTableAction.UPDATE_ALIVE_STATUS, user_id=user_id, is_alive=is_alive)
+        self._log(
+            UsersTableAction.UPDATE_ALIVE_STATUS, user_id=user_id, is_alive=is_alive
+        )
 
     async def update_user_lang(self, *, user_id: int, user_lang: str) -> None:
         await self.connection.execute(
@@ -97,8 +99,10 @@ class UsersTable(BaseTable):
             """,
             params=(user_lang, user_id),
         )
-        self._log(UsersTableAction.UPDATE_USER_LANG, user_id=user_id, user_lang=user_lang)
-    
+        self._log(
+            UsersTableAction.UPDATE_USER_LANG, user_id=user_id, user_lang=user_lang
+        )
+
     async def update_banned_status(self, *, user_id: int, banned: bool = False) -> None:
         await self.connection.execute(
             sql="""

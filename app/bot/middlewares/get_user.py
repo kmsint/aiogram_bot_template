@@ -17,18 +17,17 @@ class GetUserMiddleware(BaseMiddleware):
         event: Update,
         data: dict[str, Any],
     ) -> Any:
-        
         user: User = data.get("event_from_user")
 
         if user is None:
             return await handler(event, data)
 
-        db: DB = data.get('db')
+        db: DB = data.get("db")
 
         if db is None:
             logger.error("Database object is not provided in middleware data.")
             raise RuntimeError("Missing `db` in middleware context.")
-        
+
         user_row: UserModel | None = await db.users.get_user(user_id=user.id)
 
         data.update(user_row=user_row)
