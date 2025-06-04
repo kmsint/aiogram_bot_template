@@ -12,8 +12,8 @@ from taskiq_redis import RedisScheduleSource
 from app.bot.enums.roles import UserRole
 from app.bot.filters.dialog_filters import DialogStateFilter, DialogStateGroupFilter
 from app.bot.keyboards.links_kb import get_links_kb
-from app.bot.states.settings import SettingsSG
-from app.bot.states.start import StartSG
+from app.bot.dialogs.flows.settings.states import SettingsSG
+from app.bot.dialogs.flows.start.states import StartSG
 from app.infrastructure.database.db import DB
 from app.infrastructure.database.models.user import UserModel
 from app.services.delay_service.publisher import delay_message_deletion

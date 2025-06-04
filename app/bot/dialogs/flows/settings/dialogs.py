@@ -8,7 +8,7 @@ from app.bot.dialogs.flows.settings.handlers import (
     set_radio_lang_default,
     update_user_lang,
 )
-from app.bot.states.settings import SettingsSG
+from app.bot.dialogs.flows.settings.states import SettingsSG
 
 settings_dialog = Dialog(
     Window(
