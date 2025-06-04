@@ -34,17 +34,20 @@ You can learn how to develop telegram bots using the `aiogram` framework in the 
 │   ├── env.py
 │   └── script.py.mako
 ├── 📁 app/
+│   ├── 📁 bot/
 │   │   ├── 📁 dialogs/
 │   │   │   ├── 📁 flows/
 │   │   │   │   ├── 📁 settings/
 │   │   │   │   │   ├── dialogs.py
 │   │   │   │   │   ├── getters.py
 │   │   │   │   │   ├── handlers.py
-│   │   │   │   │   └── keyboards.py
+│   │   │   │   │   ├── keyboards.py
+│   │   │   │   │   └── states.py
 │   │   │   │   └── 📁 start/
 │   │   │   │       ├── dialogs.py
 │   │   │   │       ├── getters.py
-│   │   │   │       └── handlers.py
+│   │   │   │       ├── handlers.py
+│   │   │   │       └── states.py
 │   │   │   └── 📁 widgets/
 │   │   │       └── i18n.py
 │   │   ├── 📁 enums/
@@ -62,23 +65,34 @@ You can learn how to develop telegram bots using the `aiogram` framework in the 
 │   │   │   └── menu_button.py
 │   │   ├── 📁 middlewares/
 │   │   │   ├── database.py
-│   │   │   └── i18n.py
+│   │   │   ├── get_user.py
+│   │   │   ├── i18n.py
+│   │   │   └── shadow_ban.py
 │   │   ├── 📁 states/
-│   │   │   ├── settings.py
-│   │   │   └── start.py
+│   │   │   └── states.py
 │   │   ├── __init__.py
 │   │   └── bot.py
 │   ├── 📁 infrastructure/
 │   │   ├── 📁 cache/
 │   │   │   └── connect_to_redis.py
 │   │   ├── 📁 database/
-│   │   │   ├── 📁 database/
-│   │   │   │   ├── db.py
-│   │   │   │   └── users.py
+│   │   │   ├── 📁 connection/
+│   │   │   │   ├── base.py
+│   │   │   │   ├── connect_to_pg.py
+│   │   │   │   └── psycopg_connection.py
 │   │   │   ├── 📁 models/
+│   │   │   │   └── users.py
+│   │   │   ├── 📁 query/
+│   │   │   │   └── results.py
+│   │   │   ├── 📁 tables/
+│   │   │   │   ├── 📁 enums/
+│   │   │   │   │   ├── base.py
+│   │   │   │   │   └── users.py
 │   │   │   │   ├── base.py
 │   │   │   │   └── users.py
-│   │   │   └── connect_to_pg.py
+│   │   │   ├── 📁 views/
+│   │   │   │   └── views.py
+│   │   │   └── db.py
 │   │   └── 📁 storage/
 │   │       ├── 📁 storage/
 │   │       │   └── nats_storage.py
@@ -117,9 +131,9 @@ You can learn how to develop telegram bots using the `aiogram` framework in the 
 ├── docker-compose.example
 ├── docker-compose.yml
 ├── main.py
-├── poetry.lock
 ├── pyproject.toml
-└── README.md
+├── README.md
+└── uv.lock
 ```
 
 ## Installation

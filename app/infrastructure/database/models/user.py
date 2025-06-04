@@ -51,29 +51,3 @@ class UserModel(BaseModel):
                 "banned": False,
             }
         }
-
-
-from datetime import datetime
-
-from pydantic import BaseModel, Field
-
-from app.bot.enums.roles import UserRole
-
-
-class UserModel(BaseModel):
-    id: int = Field(..., description="Primary key")
-    user_id: int = Field(..., description="Telegram user ID")
-    created_at: datetime = Field(
-        ..., description="Date and time when the record was created"
-    )
-    tz_region: str | None = Field(..., description="")
-    tz_offset: str | None
-    longitude: float | None
-    latitude: float | None
-    language: str
-    role: UserRole
-    is_alive: bool
-    banned: bool
-
-    def __post_init__(self):
-        self.role = UserRole(self.role)
