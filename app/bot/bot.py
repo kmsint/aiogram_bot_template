@@ -118,7 +118,6 @@ async def main():
                 nc=nc,
                 js=js,
                 bot=bot,
-                bg_factory=bg_factory,
                 subject=settings.nats.delayed_consumer_subject,
                 stream=settings.nats.delayed_consumer_stream,
                 durable_name=settings.nats.delayed_consumer_durable_name,
