@@ -9,6 +9,7 @@ from aiogram.enums import ParseMode
 from aiogram.filters import ExceptionTypeFilter
 from aiogram.fsm.storage.base import DefaultKeyBuilder
 from aiogram_dialog import setup_dialogs
+from aiogram_dialog.api.entities import DIALOG_EVENT_NAME
 from aiogram_dialog.api.exceptions import UnknownIntent, UnknownState
 from fluentogram import TranslatorHub
 
@@ -22,8 +23,8 @@ from app.bot.middlewares.get_user import GetUserMiddleware
 from app.bot.middlewares.i18n import TranslatorRunnerMiddleware
 from app.infrastructure.cache.connect_to_redis import get_redis_pool
 from app.infrastructure.database.connection.connect_to_pg import get_pg_pool
-from app.infrastructure.storage.storage.nats_storage import NatsStorage
 from app.infrastructure.storage.nats_connect import connect_to_nats
+from app.infrastructure.storage.storage.nats_storage import NatsStorage
 from app.services.delay_service.start_consumer import start_delayed_consumer
 from app.services.scheduler.taskiq_broker import broker, redis_source
 from config.config import settings
@@ -65,6 +66,13 @@ async def main():
 
     translator_hub: TranslatorHub = create_translator_hub()
 
+    dp.workflow_data.update(
+        redis_source=redis_source,
+        bot_locales=sorted(settings.i18n.locales),
+        translator_hub=translator_hub,
+        db_pool=db_pool
+    )
+
     logger.info("Registering error handlers")
     dp.errors.register(
         on_unknown_intent,
@@ -89,6 +97,11 @@ async def main():
     logger.info("Setting up dialogs")
     bg_factory = setup_dialogs(dp)
 
+    logger.info("Including observers middlewares")
+    dp.observers[DIALOG_EVENT_NAME].outer_middleware(DataBaseMiddleware())
+    dp.observers[DIALOG_EVENT_NAME].outer_middleware(GetUserMiddleware())
+    dp.observers[DIALOG_EVENT_NAME].outer_middleware(TranslatorRunnerMiddleware())
+
     logger.info("Starting taskiq broker")
     await broker.startup()
 
@@ -99,16 +112,13 @@ async def main():
                 bot,
                 js=js,
                 delay_del_subject=settings.nats.delayed_consumer_subject,
-                bg_factory=bg_factory,
-                redis_source=redis_source,
-                bot_locales=sorted(settings.i18n.locales),
-                translator_hub=translator_hub,
-                db_pool=db_pool,
+                bg_factory=bg_factory
             ),
             start_delayed_consumer(
                 nc=nc,
                 js=js,
                 bot=bot,
+                bg_factory=bg_factory,
                 subject=settings.nats.delayed_consumer_subject,
                 stream=settings.nats.delayed_consumer_stream,
                 durable_name=settings.nats.delayed_consumer_durable_name,
