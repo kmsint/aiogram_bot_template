@@ -71,7 +71,7 @@ class UsersTable(BaseTable):
             """,
             params=(user_id,),
         )
-        user_model: UserModel | None = data.convert(model=UserModel)
+        user_model: UserModel | None = data.to_model(model=UserModel)
 
         self._log(UsersTableAction.GET_USER, user_id=user_id)
 
