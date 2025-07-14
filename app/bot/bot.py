@@ -21,6 +21,7 @@ from app.bot.i18n.translator_hub import create_translator_hub
 from app.bot.middlewares.database import DataBaseMiddleware
 from app.bot.middlewares.get_user import GetUserMiddleware
 from app.bot.middlewares.i18n import TranslatorRunnerMiddleware
+from app.bot.middlewares.shadow_ban import ShadowBanMiddleware
 from app.infrastructure.cache.connect_to_redis import get_redis_pool
 from app.infrastructure.database.connection.connect_to_pg import get_pg_pool
 from app.infrastructure.storage.nats_connect import connect_to_nats
@@ -89,9 +90,12 @@ async def main():
     logger.info("Including middlewares")
     dp.update.middleware(DataBaseMiddleware())
     dp.update.middleware(GetUserMiddleware())
+    dp.update.middleware(ShadowBanMiddleware())
     dp.update.middleware(TranslatorRunnerMiddleware())
+
     dp.errors.middleware(DataBaseMiddleware())
     dp.errors.middleware(GetUserMiddleware())
+    dp.errors.middleware(ShadowBanMiddleware())
     dp.errors.middleware(TranslatorRunnerMiddleware())
 
     logger.info("Setting up dialogs")
@@ -100,6 +104,7 @@ async def main():
     logger.info("Including observers middlewares")
     dp.observers[DIALOG_EVENT_NAME].outer_middleware(DataBaseMiddleware())
     dp.observers[DIALOG_EVENT_NAME].outer_middleware(GetUserMiddleware())
+    dp.observers[DIALOG_EVENT_NAME].outer_middleware(ShadowBanMiddleware())
     dp.observers[DIALOG_EVENT_NAME].outer_middleware(TranslatorRunnerMiddleware())
 
     logger.info("Starting taskiq broker")
