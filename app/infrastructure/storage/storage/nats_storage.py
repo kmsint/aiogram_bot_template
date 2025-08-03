@@ -105,9 +105,11 @@ class NatsStorage(BaseStorage):
         :param key: Original StorageKey.
         :return: New StorageKey with encoded destiny.
         """
-        encoded_destiny = self._b64_encode(key.destiny) if key.destiny else None
-        safe_key = replace(key, destiny=encoded_destiny)
-        return safe_key
+        if key.destiny:
+            encoded_destiny = self._b64_encode(key.destiny)
+            safe_key = replace(key, destiny=encoded_destiny)
+            return safe_key
+        return key
 
     def _build_safe_key(self, key: StorageKey) -> str:
         """
