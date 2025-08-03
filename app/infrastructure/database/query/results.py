@@ -26,7 +26,9 @@ class SingleQueryResult:
         """
         return not self._data
 
-    def to_model(self, model: Callable[..., T], *, raise_if_empty: bool = False) -> T | None:
+    def to_model(
+        self, model: Callable[..., T], *, raise_if_empty: bool = False
+    ) -> T | None:
         """
         Converts the result to a model instance.
 
@@ -67,7 +69,9 @@ class MultipleQueryResult:
     """
 
     def __init__(self, results: Iterable[Mapping[str, Any]] | None = None) -> None:
-        self._data: list[dict[str, Any]] = [dict(row) for row in results] if results else []
+        self._data: list[dict[str, Any]] = (
+            [dict(row) for row in results] if results else []
+        )
 
     @property
     def data(self) -> list[dict[str, Any]]:
@@ -82,7 +86,9 @@ class MultipleQueryResult:
         """
         return not self._data
 
-    def to_models(self, model: Callable[..., T], *, raise_if_empty: bool = False) -> list[T] | None:
+    def to_models(
+        self, model: Callable[..., T], *, raise_if_empty: bool = False
+    ) -> list[T] | None:
         """
         Converts all rows to a list of model instances.
 
@@ -104,7 +110,9 @@ class MultipleQueryResult:
         Returns the first row as a SingleQueryResult.
         If no data exists, returns an empty SingleQueryResult.
         """
-        return SingleQueryResult(self._data[0]) if self._data else SingleQueryResult(None)
+        return (
+            SingleQueryResult(self._data[0]) if self._data else SingleQueryResult(None)
+        )
 
     def as_dicts(self) -> list[dict[str, Any]]:
         """

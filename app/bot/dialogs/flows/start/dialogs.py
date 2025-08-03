@@ -9,7 +9,7 @@ start_dialog = Dialog(
     Window(
         Format("{hello}"),
         I18nFormat("bot-desription"),
-        getter=get_hello, 
-        state=StartSG.start
+        getter=get_hello,
+        state=StartSG.start,
     ),
 )

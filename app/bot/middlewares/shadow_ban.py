@@ -15,7 +15,6 @@ class ShadowBanMiddleware(BaseMiddleware):
         event: Update,
         data: dict[str, Any],
     ) -> Any:
-
         user_row: UserModel | None = data.get("user_row")
         if user_row is None:
             logger.warning(
@@ -25,9 +24,7 @@ class ShadowBanMiddleware(BaseMiddleware):
             return await handler(event, data)
 
         if user_row.banned:
-            logger.warning(
-                "Shadow-banned user tried to interact: %d", user_row.user_id
-            )
+            logger.warning("Shadow-banned user tried to interact: %d", user_row.user_id)
             if event.callback_query:
                 await event.callback_query.answer()
             return

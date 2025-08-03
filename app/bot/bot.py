@@ -71,7 +71,7 @@ async def main():
         redis_source=redis_source,
         bot_locales=sorted(settings.i18n.locales),
         translator_hub=translator_hub,
-        db_pool=db_pool
+        db_pool=db_pool,
     )
 
     logger.info("Registering error handlers")
@@ -117,7 +117,7 @@ async def main():
                 bot,
                 js=js,
                 delay_del_subject=settings.nats.delayed_consumer_subject,
-                bg_factory=bg_factory
+                bg_factory=bg_factory,
             ),
             start_delayed_consumer(
                 nc=nc,

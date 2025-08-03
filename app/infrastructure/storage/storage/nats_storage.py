@@ -30,6 +30,7 @@ class NatsStorage(BaseStorage):
     Stores FSM states and data in NATS JetStream Key-Value buckets.
     Ensures that keys are safely encoded for NATS KV requirements.
     """
+
     def __init__(
         self,
         nc: Client,

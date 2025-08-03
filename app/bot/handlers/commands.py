@@ -47,9 +47,8 @@ async def process_start_command(
     await bot.set_my_commands(
         commands=get_main_menu_commands(i18n=i18n),
         scope=BotCommandScopeChat(
-            type=BotCommandScopeType.CHAT,
-            chat_id=message.from_user.id
-        )
+            type=BotCommandScopeType.CHAT, chat_id=message.from_user.id
+        ),
     )
     await dialog_manager.start(state=StartSG.start, mode=StartMode.RESET_STACK)
 

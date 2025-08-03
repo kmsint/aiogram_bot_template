@@ -27,7 +27,7 @@ async def update_user_lang(
     callback: CallbackQuery,
     widget: Button,
     dialog_manager: DialogManager,
-):  
+):
     bot: Bot = dialog_manager.middleware_data.get("bot")
     translator_hub: TranslatorHub = dialog_manager.middleware_data.get("translator_hub")
     db: DB = dialog_manager.middleware_data.get("db")
@@ -43,9 +43,8 @@ async def update_user_lang(
     await bot.set_my_commands(
         commands=get_main_menu_commands(i18n=i18n),
         scope=BotCommandScopeChat(
-            type=BotCommandScopeType.CHAT,
-            chat_id=callback.from_user.id
-        )
+            type=BotCommandScopeType.CHAT, chat_id=callback.from_user.id
+        ),
     )
     await callback.answer(text=i18n.lang.saved())
     await dialog_manager.done()
