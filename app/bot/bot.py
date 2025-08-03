@@ -39,7 +39,7 @@ async def main():
     nc, js = await connect_to_nats(servers=settings.nats.servers)
 
     storage: NatsStorage = await NatsStorage(
-        nc=nc, js=js, key_builder=DefaultKeyBuilder(with_destiny=True)
+        nc=nc, js=js, key_builder=DefaultKeyBuilder(with_destiny=True, separator=".")
     ).create_storage()
 
     bot = Bot(
