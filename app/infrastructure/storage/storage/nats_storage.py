@@ -16,7 +16,7 @@ from aiogram.fsm.storage.base import (
 
 from nats.aio.client import Client
 from nats.js import JetStreamContext
-from nats.js.api import KeyValueConfig
+from nats.js.api import KeyValueConfig, StorageType
 from nats.js.errors import NotFoundError
 from nats.js.kv import KeyValue
 
@@ -74,7 +74,7 @@ class NatsStorage(BaseStorage):
         """
         return await self.js.create_key_value(
             config=KeyValueConfig(
-                bucket=self.fsm_states_bucket, history=5, storage="file"
+                bucket=self.fsm_states_bucket, history=5, storage=StorageType.FILE
             )
         )
 
@@ -86,7 +86,7 @@ class NatsStorage(BaseStorage):
         """
         return await self.js.create_key_value(
             config=KeyValueConfig(
-                bucket=self.fsm_data_bucket, history=5, storage="file"
+                bucket=self.fsm_data_bucket, history=5, storage=StorageType.FILE
             )
         )
 

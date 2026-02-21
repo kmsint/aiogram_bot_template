@@ -1,12 +1,10 @@
 import asyncio
-import os
-import sys
 from logging.config import fileConfig
 
 from sqlalchemy.ext.asyncio import AsyncConnection, create_async_engine
 
 from alembic import context
-from config.config import get_config
+from app.config.loader import get_config
 
 # Alembic Config object
 config = context.config
@@ -39,8 +37,5 @@ def do_run_migrations(connection: AsyncConnection):
     with context.begin_transaction():
         context.run_migrations()
 
-
-if sys.platform.startswith("win") or os.name == "nt":
-    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 asyncio.run(run_migrations())

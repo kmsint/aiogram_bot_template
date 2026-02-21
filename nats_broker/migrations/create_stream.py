@@ -1,16 +1,27 @@
+import logging
+
 import asyncio
-import os
-import sys
 
 from nats.aio.client import Client as NATS
 from nats.js import JetStreamContext
-from nats.js.api import StreamConfig
+from nats.js.api import RetentionPolicy, StorageType, StreamConfig
 
-from config.config import get_config
+from app.config.loader import get_config
+
+logger = logging.getLogger(__name__)
 
 
 async def main():
     config = get_config()
+
+    logging.basicConfig(
+        level=logging._nameToLevel.get(
+            config.logs.level_name.upper(),
+            logging.INFO,
+        ),
+        format=config.logs.format
+    )
+
     nc = NATS()
     await nc.connect(servers=config.nats.servers)
 
@@ -18,24 +29,20 @@ async def main():
 
     stream_name = config.nats.delayed_consumer_stream
 
-    # Конфигурация стрима
+    # Stream configuration
     stream_config = StreamConfig(
         name=stream_name,
         subjects=[config.nats.delayed_consumer_subject],
-        retention="limits",  # Политика хранения сообщений (limits, interest, workqueue)
-        storage="file",  # Тип хранения сообщений (file, memory)
+        retention=RetentionPolicy.LIMITS,
+        storage=StorageType.FILE,
     )
 
-    # Создание стрима
+    # Stream creation
     await js.add_stream(stream_config)
 
-    print(f"Stream `{stream_name}` created")
+    logger.info("Stream `%s` created", stream_name)
 
-    # Закрытие соединения
     await nc.close()
 
-
-if sys.platform.startswith("win") or os.name == "nt":
-    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 asyncio.run(main())

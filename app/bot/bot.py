@@ -27,14 +27,14 @@ from app.infrastructure.storage.nats_connect import connect_to_nats
 from app.infrastructure.storage.storage.nats_storage import NatsStorage
 from app.services.delay_service.start_consumer import start_delayed_consumer
 from app.services.scheduler.taskiq_broker import broker, redis_source
-from config.config import get_config
+from app.config.loader import get_config
 
 logger = logging.getLogger(__name__)
 
 
 async def main():
     logger.info("Starting bot")
-    
+
     config = get_config()
 
     nc, js = await connect_to_nats(servers=config.nats.servers)

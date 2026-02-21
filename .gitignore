@@ -167,3 +167,6 @@ poetry.lock
 .nats_data/
 
 test_*.py
+
+# Secrets
+.secrets.toml
