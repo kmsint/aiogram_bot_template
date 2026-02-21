@@ -1,17 +1,22 @@
 import asyncio
 import logging
+from pathlib import Path
 
-from app.bot import main
-from config.config import get_config
+from app.bot import main as start_bot
+from app.config.loader import get_config
 
-config = get_config()
 
-logging.basicConfig(
-    level=logging._nameToLevel.get(
-        config.logs.level_name.upper(),
-        logging.INFO,
-    ),
-    format=config.logs.format
-)
+async def main():
+    PROJECT_ROOT = Path(__file__).resolve().parent
+    config = get_config()
+
+    logging.basicConfig(
+        level=logging._nameToLevel.get(
+            config.logs.level_name.upper(),
+            logging.INFO,
+        ),
+        format=config.logs.format
+    )
+    await start_bot(project_root=PROJECT_ROOT, config=config)
 
 asyncio.run(main())
