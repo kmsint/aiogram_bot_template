@@ -5,7 +5,7 @@ from taskiq.schedule_sources import LabelScheduleSource
 from taskiq_nats import NatsBroker
 from taskiq_redis import RedisScheduleSource
 
-from config.config import get_config
+from app.config.loader import get_config
 
 config = get_config()
 

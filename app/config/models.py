@@ -15,6 +15,10 @@ class LogsConfig(BaseModel):
 class I18nConfig(BaseModel):
     default_locale: str = Field(default="en", description="Default locale for the application.")
     locales: list[str] = Field(default=["en"], description="List of supported locales.")
+    locales_map: dict[str, list[str]] = Field(
+        ...,
+        description="Mapping of base locales to their fallback locales (e.g. {'en': ['en', 'ru']})."
+    )
 
 
 class BotConfig(BaseModel):

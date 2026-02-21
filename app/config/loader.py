@@ -19,6 +19,7 @@ def get_config() -> AppConfig:
     i18n = I18nConfig(
         default_locale=_settings.i18n.default_locale,
         locales=_settings.i18n.locales,
+        locales_map=_settings.i18n.locales_map,
     )
 
     bot = BotConfig(

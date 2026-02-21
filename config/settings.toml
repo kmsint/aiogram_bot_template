@@ -7,10 +7,11 @@
     [development.logs]
         LEVEL_NAME = "DEBUG"
         FORMAT = '[%(asctime)s] #%(levelname)-8s %(filename)s:%(lineno)d - %(name)s - %(message)s'
-    
+
     [development.i18n]
         default_locale = "ru"
         locales = ["ru", "en"]
+        LOCALES_MAP = { ru = ["ru", "en"], en = ["en", "ru"], default = ["en", "ru"] }
 
     [development.bot]
         PARSE_MODE = 'HTML'
@@ -20,7 +21,7 @@
         HOST = 'localhost'
         PORT = 5432
         USER = 'postgres'
-    
+
     [development.redis]
         HOST = 'localhost'
         PORT = 6379
@@ -31,6 +32,6 @@
         DELAYED_CONSUMER_SUBJECT = 'aiogram.delayed.messages'
         DELAYED_CONSUMER_STREAM = 'delayed_messages_aiogram'
         DELAYED_CONSUMER_DURABLE_NAME = 'delayed_messages_consumer'
-    
+
     [development.cache]
         USE_CACHE = false

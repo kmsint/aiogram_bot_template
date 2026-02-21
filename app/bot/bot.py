@@ -65,7 +65,11 @@ async def main(project_root: Path | str, config: AppConfig):
         password=config.postgres.password,
     )
 
-    translator_hub: TranslatorHub = create_translator_hub()
+    translator_hub: TranslatorHub = create_translator_hub(
+        locales_directory=project_root,
+        locales_map=config.i18n.locales_map,
+        default_locale=config.i18n.default_locale,
+    )
 
     dp.workflow_data.update(
         redis_source=redis_source,
