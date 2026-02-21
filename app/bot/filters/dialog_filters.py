@@ -1,6 +1,6 @@
 from aiogram.filters import BaseFilter
 from aiogram.fsm.state import State, StatesGroup
-from aiogram_dialog.api.protocols.manager import Context
+from aiogram_dialog.api.entities import Context
 
 
 class DialogStateFilter(BaseFilter):
