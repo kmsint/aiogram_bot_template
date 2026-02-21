@@ -1,5 +1,6 @@
 import asyncio
 import logging
+from pathlib import Path
 
 import psycopg_pool
 import redis
@@ -21,21 +22,19 @@ from app.bot.middlewares.database import DataBaseMiddleware
 from app.bot.middlewares.get_user import GetUserMiddleware
 from app.bot.middlewares.i18n import TranslatorRunnerMiddleware
 from app.bot.middlewares.shadow_ban import ShadowBanMiddleware
+from app.config.models import AppConfig
 from app.infrastructure.cache.connect_to_redis import get_redis_pool
 from app.infrastructure.database.connection.connect_to_pg import get_pg_pool
 from app.infrastructure.storage.nats_connect import connect_to_nats
 from app.infrastructure.storage.storage.nats_storage import NatsStorage
 from app.services.delay_service.start_consumer import start_delayed_consumer
 from app.services.scheduler.taskiq_broker import broker, redis_source
-from app.config.loader import get_config
 
 logger = logging.getLogger(__name__)
 
 
-async def main():
+async def main(project_root: Path | str, config: AppConfig):
     logger.info("Starting bot")
-
-    config = get_config()
 
     nc, js = await connect_to_nats(servers=config.nats.servers)
 

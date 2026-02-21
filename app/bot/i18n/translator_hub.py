@@ -1,21 +1,26 @@
+from pathlib import Path
+
 from fluent_compiler.bundle import FluentBundle
 from fluentogram import FluentTranslator, TranslatorHub
 
-from config.config import get_config
-
-DIR_PATH = "locales"
+from app.services.parsers.file_names_parser import list_file_paths_in_dir
 
 
-def create_translator_hub() -> TranslatorHub:
-    config = get_config()
+def create_translator_hub(
+    locales_directory: Path | str,
+    locales_map: dict[str, list[str]],
+    default_locale: str,
+) -> TranslatorHub:
     translator_hub = TranslatorHub(
-        {"ru": ("ru", "en"), "en": ("en", "ru")},
-        [
+        locales_map=locales_map,
+        translators=[
             FluentTranslator(
                 locale="ru",
                 translator=FluentBundle.from_files(
                     locale="ru-RU",
-                    filenames=[f"{DIR_PATH}/ru/LC_MESSAGES/txt.ftl"],
+                    filenames=list_file_paths_in_dir(
+                        directory=f"{locales_directory}/locales/ru/LC_MESSAGES/"
+                    ),
                     use_isolating=False,
                 ),
             ),
@@ -23,11 +28,13 @@ def create_translator_hub() -> TranslatorHub:
                 locale="en",
                 translator=FluentBundle.from_files(
                     locale="en-US",
-                    filenames=[f"{DIR_PATH}/en/LC_MESSAGES/txt.ftl"],
+                    filenames=list_file_paths_in_dir(
+                        directory=f"{locales_directory}/locales/en/LC_MESSAGES/"
+                    ),
                     use_isolating=False,
                 ),
             ),
         ],
-        root_locale=config.i18n.default_locale,
+        root_locale=default_locale,
     )
     return translator_hub
