@@ -15,8 +15,9 @@ async def main():
             config.logs.level_name.upper(),
             logging.INFO,
         ),
-        format=config.logs.format
+        format=config.logs.format,
     )
     await start_bot(project_root=PROJECT_ROOT, config=config)
+
 
 asyncio.run(main())

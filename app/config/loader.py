@@ -1,4 +1,13 @@
-from app.config.models import AppConfig, BotConfig, CacheConfig, I18nConfig, LogsConfig, NatsConfig, PostgresConfig, RedisConfig
+from app.config.models import (
+    AppConfig,
+    BotConfig,
+    CacheConfig,
+    I18nConfig,
+    LogsConfig,
+    NatsConfig,
+    PostgresConfig,
+    RedisConfig,
+)
 from app.config.settings import settings
 
 _settings = settings
@@ -6,10 +15,10 @@ _settings = settings
 
 def get_config() -> AppConfig:
     """
-        Returns a typed application configuration.
+    Returns a typed application configuration.
 
-        Returns:
-            AppConfig: A validated Pydantic model containing the application settings.
+    Returns:
+        AppConfig: A validated Pydantic model containing the application settings.
     """
     logs = LogsConfig(
         level_name=_settings.logs.level_name,

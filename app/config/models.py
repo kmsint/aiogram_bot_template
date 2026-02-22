@@ -8,23 +8,26 @@ class LogsConfig(BaseModel):
     )
     format: str = Field(
         default="%(asctime)s [%(levelname)s] %(message)s",
-        description="Log message format."
+        description="Log message format.",
     )
 
 
 class I18nConfig(BaseModel):
-    default_locale: str = Field(default="en", description="Default locale for the application.")
+    default_locale: str = Field(
+        default="en", description="Default locale for the application."
+    )
     locales: list[str] = Field(default=["en"], description="List of supported locales.")
     locales_map: dict[str, list[str]] = Field(
         ...,
-        description="Mapping of base locales to their fallback locales (e.g. {'en': ['en', 'ru']})."
+        description="Mapping of base locales to their fallback locales (e.g. {'en': ['en', 'ru']}).",
     )
 
 
 class BotConfig(BaseModel):
     token: str = Field(..., description="Telegram bot API token.")
     parse_mode: ParseMode = Field(
-        ..., description="Default parse mode for sending messages (e.g. HTML, Markdown)."
+        ...,
+        description="Default parse mode for sending messages (e.g. HTML, Markdown).",
     )
 
 
@@ -46,8 +49,12 @@ class RedisConfig(BaseModel):
 
 class NatsConfig(BaseModel):
     servers: str | list[str] = Field(..., description="NATS servers.")
-    delayed_consumer_subject: str = Field(..., description="NATS subject for delayed consumer.")
-    delayed_consumer_stream: str = Field(..., description="NATS stream for delayed messages.")
+    delayed_consumer_subject: str = Field(
+        ..., description="NATS subject for delayed consumer."
+    )
+    delayed_consumer_stream: str = Field(
+        ..., description="NATS stream for delayed messages."
+    )
     delayed_consumer_durable_name: str = Field(
         ..., description="Durable consumer name for delayed processing."
     )

@@ -19,7 +19,7 @@ async def main():
             config.logs.level_name.upper(),
             logging.INFO,
         ),
-        format=config.logs.format
+        format=config.logs.format,
     )
 
     nc = NATS()
