@@ -11,12 +11,12 @@ from aiogram.filters import ExceptionTypeFilter
 from aiogram.fsm.storage.base import DefaultKeyBuilder
 from aiogram_dialog import setup_dialogs
 from aiogram_dialog.api.entities import DIALOG_EVENT_NAME
-from aiogram_dialog.api.exceptions import UnknownIntent, UnknownState
+from aiogram_dialog.api.exceptions import OutdatedIntent, UnknownIntent, UnknownState
 from fluentogram import TranslatorHub
 
 from app.bot.dialogs.flows import dialogs
 from app.bot.handlers import routers
-from app.bot.handlers.errors import on_unknown_intent, on_unknown_state
+from app.bot.handlers.errors import on_outdated_intent, on_unknown_intent, on_unknown_state
 from app.bot.i18n.translator_hub import create_translator_hub
 from app.bot.middlewares.database import DataBaseMiddleware
 from app.bot.middlewares.get_user import GetUserMiddleware
@@ -86,6 +86,10 @@ async def main(project_root: Path | str, config: AppConfig):
     dp.errors.register(
         on_unknown_state,
         ExceptionTypeFilter(UnknownState),
+    )
+    dp.errors.register(
+        on_outdated_intent,
+        ExceptionTypeFilter(OutdatedIntent),
     )
 
     logger.info("Including routers")

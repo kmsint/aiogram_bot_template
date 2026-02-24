@@ -25,3 +25,13 @@ async def on_unknown_state(event, dialog_manager: DialogManager):
         mode=StartMode.RESET_STACK,
         show_mode=ShowMode.SEND,
     )
+
+
+async def on_outdated_intent(event, dialog_manager: DialogManager):
+    # Example of handling OutdatedIntent Error and starting new dialog.
+    logging.error("Restarting dialog: %s", event.exception)
+    await dialog_manager.start(
+        StartSG.start,
+        mode=StartMode.RESET_STACK,
+        show_mode=ShowMode.SEND,
+    )
