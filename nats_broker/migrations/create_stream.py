@@ -11,14 +11,11 @@ from app.config.loader import get_config
 logger = logging.getLogger(__name__)
 
 
-async def main():
+async def main() -> None:
     config = get_config()
 
     logging.basicConfig(
-        level=logging._nameToLevel.get(
-            config.logs.level_name.upper(),
-            logging.INFO,
-        ),
+        level=config.logs.level_name.upper(),
         format=config.logs.format,
     )
 
